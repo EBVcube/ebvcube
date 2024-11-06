@@ -196,6 +196,12 @@ ebv_map <- function(filepath, datacubepath = NULL, entity=NULL, timestep=1, coun
 
   subtitle <- paste0(metric_name, ' - ', label, ' (', timestep.nat, ')')
 
+  #add scenario name to subtitle if exists:
+  if('name' %in% names(prop@scenario)){
+    scenario_name <- prop@scenario$name
+    subtitle <- paste0(scenario_name, '\n', subtitle)
+  }
+
   #read the data necessary for the quantiles----
   data.all <- HDF5Array::HDF5Array(filepath = filepath, name = datacubepath,
                                    type = type.short)
@@ -349,25 +355,16 @@ ebv_map <- function(filepath, datacubepath = NULL, entity=NULL, timestep=1, coun
       world_boundaries <- terra::project(world_boundaries, paste0('EPSG:', epsg))
     }
 
-    # #crop world_boundaries to extent
+    #crop world_boundaries to extent
     extent <- terra::ext(data.raster)
-
     if(extent[1] > -180 || extent[2] < 180 || extent[3] > -90 || extent[4] < 83.64513){
       world_boundaries <- terra::crop(world_boundaries, extent)
     }
-
-    # world_boundaries <- sf::st_as_sf(world_boundaries, wkt='geometry', crs='EPSG:4326')
-    # world_boundaries <- sf::st_make_valid(world_boundaries)
-
-    # turn into sf object to make plot function work - workaround
-    # world_boundaries <- sf::st_as_sf(world_boundaries)
-
 
     print(
       ggplot2::ggplot() +
         tidyterra::geom_spatraster(data = data.raster) +
         tidyterra::geom_spatvector(data = world_boundaries, fill = NA) +
-        # ggplot2::geom_sf(data = world_boundaries, fill = NA) +
         ggplot2::coord_sf(expand = FALSE)+
         ggplot2::ggtitle(paste(strwrap(
                              title,
