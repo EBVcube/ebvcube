@@ -335,12 +335,13 @@ ebv_map <- function(filepath, datacubepath = NULL, entity=NULL, timestep=1, coun
   }else{
     color_def <- ggplot2::scale_fill_fermenter(na.value=NA, palette = palette,
                                                breaks =  as.numeric(s),
-                                              label = signif(as.numeric(s), 3),
-                                              direction = direction,
-                                              name = paste(strwrap(
+                                               limits = c(s[1], s[classes+1]),
+                                               label = signif(as.numeric(s), 3),
+                                               direction = direction,
+                                               name = paste(strwrap(
                                                 units,
                                                 width = 10
-                                              ), collapse = "\n")
+                                               ), collapse = "\n")
                                               )
   }
 
