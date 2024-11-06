@@ -128,7 +128,7 @@ ebv_map <- function(filepath, datacubepath = NULL, entity=NULL, timestep=1, coun
   }
 
   #get properties
-  prop <- ebv_properties(filepath, datacubepath, verbose=verbose)
+  prop <- ebv_properties(filepath, datacubepath, verbose=FALSE)
 
   #timestep check
   #additional check because map only allows 1 timestep
@@ -304,7 +304,6 @@ ebv_map <- function(filepath, datacubepath = NULL, entity=NULL, timestep=1, coun
     palette <- 'RdYlBu'
   } else {
     palette <- 'YlGn'
-    direction <- direction * -1
   }
 
   #get x and y lab
@@ -341,21 +340,34 @@ ebv_map <- function(filepath, datacubepath = NULL, entity=NULL, timestep=1, coun
 
   #plot with country outlines ----
   if (countries){
-    #prepare data
+
+    #get country data
     world_boundaries <- terra::vect(world_boundaries, geom='geometry', crs='EPSG:4326')
 
+    #project to correct CRS
     if(epsg != 4326){
       world_boundaries <- terra::project(world_boundaries, paste0('EPSG:', epsg))
     }
 
-    #crop world_boundaries to extent
+    # #crop world_boundaries to extent
     extent <- terra::ext(data.raster)
-    world_boundaries <- terra::crop(world_boundaries, extent)
+
+    if(extent[1] > -180 || extent[2] < 180 || extent[3] > -90 || extent[4] < 83.64513){
+      world_boundaries <- terra::crop(world_boundaries, extent)
+    }
+
+    # world_boundaries <- sf::st_as_sf(world_boundaries, wkt='geometry', crs='EPSG:4326')
+    # world_boundaries <- sf::st_make_valid(world_boundaries)
+
+    # turn into sf object to make plot function work - workaround
+    # world_boundaries <- sf::st_as_sf(world_boundaries)
+
 
     print(
       ggplot2::ggplot() +
         tidyterra::geom_spatraster(data = data.raster) +
         tidyterra::geom_spatvector(data = world_boundaries, fill = NA) +
+        # ggplot2::geom_sf(data = world_boundaries, fill = NA) +
         ggplot2::coord_sf(expand = FALSE)+
         ggplot2::ggtitle(paste(strwrap(
                              title,
