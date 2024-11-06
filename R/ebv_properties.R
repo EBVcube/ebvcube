@@ -123,9 +123,9 @@ ebv_properties <-
 
     #datacubepath check
     #1. make sure anything is defined
-    if(is.null(datacubepath) && is.null(scenario) && is.null(metric)){
+    if(is.null(datacubepath) && is.null(metric)){
       if(verbose){
-        print('Giving the properties for the file. For more info on a specific datacube, define the metric and scenario OR datacubepath.')
+        print('Giving the properties for the file. For more info on a specific datacube, define the metric (and scenario) OR datacubepath.')
       }
       # open file
       hdf <- rhdf5::H5Fopen(filepath, flags = "H5F_ACC_RDONLY")
