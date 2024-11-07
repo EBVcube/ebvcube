@@ -111,7 +111,7 @@
 #'   \href{https://wiki.esipfed.org/Attribute_Convention_for_Data_Discovery_1-3}{ACDD
 #'    1.3} Conventions.
 #'   Find more help in the
-#'   \href{https://portal.geobon.org/downloads/pdf/how_to-10082023.pdf}{How-To}
+#'   \href{https://portal.geobon.org/downloads/pdf/how_to-30102024.pdf}{How-To}
 #'   on the EBV Portal Website.\cr\strong{EBV Class:} The EBV Class is GEO BON's
 #'   classification system for biodiversity monitoring. It categorizes and
 #'   organizes essential ecological variables across scales and biological

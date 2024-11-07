@@ -171,7 +171,8 @@ ebv_write <- function(data, outputpath, epsg=4326, extent=c(-180, 180, -90, 90),
     out <- HDF5Array::writeHDF5Array(
       band,
       filepath = temp_tif,
-      name = name
+      name = name,
+      verbose=verbose
     )
 
     #read with terra and add missing georefence data ----

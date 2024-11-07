@@ -14,6 +14,8 @@
 ## Bug fixes
 
 - ebv_download: corrected ID-missmatch when giving ID by title
+- ebv_map: fix color scales, fix bug 'length of breaks and labels differ', add scenario to subtitle
+- ebv_properties: ensure that metric or datacube argument is given
 
 
 # ebvcube 0.2.3
