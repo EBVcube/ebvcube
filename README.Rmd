@@ -89,7 +89,7 @@ file <- system.file(file.path("extdata", "martins_comcom_subset.nc"), package="e
 prop_file <- ebv_properties(file, verbose=FALSE)
 
 #take a look at the general properties of the data set - there are more properties to discover!
-prop_file@general[c(1,2,4)]
+prop_file@general[c(1, 2, 4)]
 slotNames(prop_file)
 
 
