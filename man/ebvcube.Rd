@@ -19,8 +19,8 @@ standard.
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://github.com/LuiseQuoss/ebvcube}
-  \item Report bugs at \url{https://github.com/LuiseQuoss/ebvcube/issues}
+  \item \url{https://github.com/EBVCube/ebvcube}
+  \item Report bugs at \url{https://github.com/EBVcube/ebvcube/issues}
 }
 
 }

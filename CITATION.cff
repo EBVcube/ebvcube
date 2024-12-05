@@ -71,7 +71,7 @@ preferred-citation:
 repository: https://CRAN.R-project.org/package=ebvcube
 repository-code: https://github.com/EBVcube/ebvcube
 url: https://github.com/EBVCube/ebvcube
-date-released: '2024-11-07'
+date-released: '2024-12-05'
 contact:
 - family-names: Quoss
   given-names: Luise
