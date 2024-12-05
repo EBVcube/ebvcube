@@ -102,7 +102,7 @@
 
 -   ebv_create: contributor_name, content coverage type and domain corrected (comma + white space)
 -   ebv_i\_file_opened: solve error on MAC OS (CRAN)
--   ebv_i\_eval_epsg: suppress warning by terra when assigning a crs (test error). [#23](https://github.com/LuiseQuoss/ebvcube/issues/23) by Roger Bivand
+-   ebv_i\_eval_epsg: suppress warning by terra when assigning a crs (test error). [#23](https://github.com/EBVCube/ebvcube/issues/23) by Roger Bivand
 
 # ebvcube 0.1.2
 
