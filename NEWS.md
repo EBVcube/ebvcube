@@ -1,3 +1,8 @@
+# ebvcube 0.3.1
+
+## Bug fixes
+- correct old url in News.md
+
 # ebvcube 0.3.0
 
 ## Major changes
