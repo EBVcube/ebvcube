@@ -7,8 +7,8 @@
 
 [![CRAN
 status](https://www.r-pkg.org/badges/version/ebvcube)](https://CRAN.R-project.org/package=ebvcube)
-[![R-CMD-check](https://github.com/LuiseQuoss/ebvcube/actions/workflows/R.yaml/badge.svg?branch=dev)](https://github.com/LuiseQuoss/ebvcube/actions/workflows/R.yaml)
-[![codecov](https://codecov.io/gh/LuiseQuoss/ebvcube/graph/badge.svg?token=2TVFHRKBNJ)](https://app.codecov.io/gh/LuiseQuoss/ebvcube)
+[![R-CMD-check](https://github.com/EBVCube/ebvcube/actions/workflows/R.yaml/badge.svg?branch=dev)](https://github.com/EBVCube/ebvcube/actions/workflows/R.yaml)
+[![codecov](https://codecov.io/gh/EBVcube/ebvcube/graph/badge.svg?token=2TVFHRKBNJ)](https://app.codecov.io/gh/EBVcube/ebvcube)
 ![Static
 Badge](https://img.shields.io/badge/DOI-10.32614%2FCRAN.package.ebvcube-blue?link=https%3A%2F%2Fcran.r-project.org%2Fweb%2Fpackages%2Febvcube%2Findex.html)
 <!-- badges: end -->
@@ -74,7 +74,7 @@ You can install the ebvcube packages with:
 install.packages('ebvcube') 
 
 #install the latest version from GitHub
-devtools::install_github('https://github.com/LuiseQuoss/ebvcube/tree/dev')
+devtools::install_github('https://github.com/EBVCube/ebvcube/tree/dev')
 
 #troubleshooting for BioConductor packages
 #if one of the following packages is not loaded: rhdf5, DelayedArray, HDF5Array
@@ -345,7 +345,7 @@ citation('ebvcube')
 #>   Working with netCDF for Essential Biodiversity Variables_. German
 #>   Centre for Integrative Biodiversity Research (iDiv)
 #>   Halle-Jena-Leipzig, Germany. R package version 0.3.0,
-#>   <https://github.com/LuiseQuoss/ebvcube>.
+#>   <https://github.com/EBVcube/ebvcube>.
 #> 
 #> A BibTeX entry for LaTeX users is
 #> 
@@ -356,7 +356,7 @@ citation('ebvcube')
 #>     note = {R package version 0.3.0},
 #>     organization = {German Centre for Integrative Biodiversity Research (iDiv) Halle-Jena-Leipzig},
 #>     address = {Germany},
-#>     url = {https://github.com/LuiseQuoss/ebvcube},
+#>     url = {https://github.com/EBVcube/ebvcube},
 #>   }
 ```
 

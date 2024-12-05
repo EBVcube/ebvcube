@@ -5,12 +5,14 @@ on:
       - main
     paths:
       - '**.R'
+      - '**.Rmd'
       - 'DESCRIPTION'
       - 'NAMESPACE'
       - '.github/workflows/R.yaml'
   pull_request:
     paths:
       - '**.R'
+      - '**.Rmd'
       - 'DESCRIPTION'
       - 'NAMESPACE'
       - '.github/workflows/R.yaml'

@@ -67,10 +67,10 @@ preferred-citation:
   institution:
     name: German Centre for Integrative Biodiversity Research (iDiv) Halle-Jena-Leipzig
     address: Germany
-  url: https://github.com/LuiseQuoss/ebvcube
+  url: https://github.com/EBVcube/ebvcube
 repository: https://CRAN.R-project.org/package=ebvcube
-repository-code: https://github.com/LuiseQuoss/ebvcube
-url: https://github.com/LuiseQuoss/ebvcube
+repository-code: https://github.com/EBVcube/ebvcube
+url: https://github.com/EBVCube/ebvcube
 date-released: '2024-11-07'
 contact:
 - family-names: Quoss
