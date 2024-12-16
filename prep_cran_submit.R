@@ -6,20 +6,20 @@ setwd(dirname(rstudioapi::getSourceEditorContext()$path))
 #update the CITATION.cff
 cffr::cff_write(dependencies=FALSE)
 
-# Run tests and examples
-devtools::document()
-devtools::test()
-devtools::run_examples()
-devtools::check()
-
-#run lintr
-lintr::lint_dir()
-
 #build readme and manual
 # devtools::build_manual()
 devtools::build_manual(path=system.file(file.path("docs"), package="ebvcube"))
 #update Rbuildignore -> new manual version
 devtools::build_readme()
+
+#run lintr
+lintr::lint_dir()
+
+# Run tests and examples
+devtools::document()
+devtools::test()
+devtools::run_examples()
+devtools::check()
 
 # Check package as CRAN
 rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"))

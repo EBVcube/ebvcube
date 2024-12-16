@@ -1,3 +1,8 @@
+# ebvcube 0.3.2
+
+## Bug fixes
+- add read-only flag to test-file (test-ebv_utils.R)
+
 # ebvcube 0.3.1
 
 ## Bug fixes
