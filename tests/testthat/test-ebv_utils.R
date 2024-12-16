@@ -234,7 +234,7 @@ test_that("test ebv_i_datacubepath no string values error", {
 #test ebv_i_get_dates function for shiny----
 test_that("test ebv_i_get_dates ", {
   file <- system.file(file.path("extdata","martins_comcom_subset.nc"), package="ebvcube")
-  hdf <- rhdf5::H5Fopen(file)
+  hdf <- rhdf5::H5Fopen(file, flags =  "H5F_ACC_RDONLY")
   dates_all <- paste0(as.character(seq(1900,2010,10)), '-01-01')
   expect_equal(as.character(ebv_i_get_dates(hdf)),dates_all)
   rhdf5::H5Fclose(hdf)
