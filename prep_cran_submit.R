@@ -1,28 +1,26 @@
 #BEFORE SUBMITTING TO CRAN
-
-#update date and version number in DESCRIPTION file
 setwd(dirname(rstudioapi::getSourceEditorContext()$path))
 
-#update the CITATION.cff
+#1. update date and version number in DESCRIPTION file
+#2. update News.md
+#3. update the CITATION.cff
 cffr::cff_write(dependencies=FALSE)
-
-#build readme and manual
-# devtools::build_manual()
-devtools::build_manual(path=system.file(file.path("docs"), package="ebvcube"))
-#update Rbuildignore -> new manual version
-devtools::build_readme()
-
-#run lintr
+#4. run lintr
 lintr::lint_dir()
-
-# Run tests and examples
+#5. check all URLs
+urlchecker::url_check()
+#6. document + manual + readme
 devtools::document()
+devtools::build_manual(path='C:\\Users\\lq39quba\\Desktop\\package\\ebvcube\\inst\\docs')
+devtools::build_readme()
+#7. update Rbuildignore -> new manual version
+#8. Again, run tests and examples + check
 devtools::test()
 devtools::run_examples()
 devtools::check()
 
 # Check package as CRAN
-rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"))
+# rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"))
 
 # Check content
 #install.packages('checkhelper', repos = 'https://thinkr-open.r-universe.dev')
@@ -38,7 +36,7 @@ rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"))
 
 # Check URL are correct
 # install.packages('urlchecker', repos = 'https://r-lib.r-universe.dev')
-urlchecker::url_check()
+
 # urlchecker::url_update()
 
 # Upgrade version number
@@ -46,8 +44,8 @@ urlchecker::url_check()
 
 # check on other distributions
 # _rhub
-cran_prep <- rhub::check_for_cran()
-cran_prep$cran_summary()
+# cran_prep <- rhub::check_for_cran()
+# cran_prep$cran_summary()
 # devtools::check_rhub()
 # rhub::check_on_windows(check_args = "--force-multiarch")
 # rhub::check_on_solaris()

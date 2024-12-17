@@ -175,7 +175,7 @@ Imagine you have a very large dataset but only limited memory. The package provi
 
 ### 3.4 Take a peek on the creation of an EBV netCDF
 #### a. Create an empty EBV netCDF (with metadata)
-First of all, you have to insert all the metadata in the [EBV Data Portal](https://portal.geobon.org/home) and then use the resulting text file (json format) to create an empty netCDF which complies to the EBV netCDF structure, i.e., it has the correct structure mapped to your data and holds the metadata. Additionally to that (json) text file, the function needs a list of all entities the netCDF (see help page for detailed information) will encompass and geospatial information such as the coordinate reference system.
+First of all, you have to insert all the metadata in the [EBV Data Portal](https://portal.geobon.org) and then use the resulting text file (json format) to create an empty netCDF which complies to the EBV netCDF structure, i.e., it has the correct structure mapped to your data and holds the metadata. Additionally to that (json) text file, the function needs a list of all entities the netCDF (see help page for detailed information) will encompass and geospatial information such as the coordinate reference system.
 
 The example is based on the [Local bird diversity (cSAR/BES-SIM) ](https://portal.geobon.org/ebv-detail?id=1). 
 

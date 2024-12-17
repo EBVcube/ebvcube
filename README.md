@@ -250,13 +250,13 @@ Look into the manual to obtain more information.
 #### a. Create an empty EBV netCDF (with metadata)
 
 First of all, you have to insert all the metadata in the [EBV Data
-Portal](https://portal.geobon.org/home) and then use the resulting text
-file (json format) to create an empty netCDF which complies to the EBV
-netCDF structure, i.e., it has the correct structure mapped to your data
-and holds the metadata. Additionally to that (json) text file, the
-function needs a list of all entities the netCDF (see help page for
-detailed information) will encompass and geospatial information such as
-the coordinate reference system.
+Portal](https://portal.geobon.org) and then use the resulting text file
+(json format) to create an empty netCDF which complies to the EBV netCDF
+structure, i.e., it has the correct structure mapped to your data and
+holds the metadata. Additionally to that (json) text file, the function
+needs a list of all entities the netCDF (see help page for detailed
+information) will encompass and geospatial information such as the
+coordinate reference system.
 
 The example is based on the [Local bird diversity
 (cSAR/BES-SIM)](https://portal.geobon.org/ebv-detail?id=1).
@@ -344,7 +344,7 @@ citation('ebvcube')
 #>   Quoss L, Fernandez N, Langer C, Valdez J, Pereira H (2024). _ebvcube:
 #>   Working with netCDF for Essential Biodiversity Variables_. German
 #>   Centre for Integrative Biodiversity Research (iDiv)
-#>   Halle-Jena-Leipzig, Germany. R package version 0.3.2,
+#>   Halle-Jena-Leipzig, Germany. R package version 0.3.3,
 #>   <https://github.com/EBVcube/ebvcube>.
 #> 
 #> A BibTeX entry for LaTeX users is
@@ -353,7 +353,7 @@ citation('ebvcube')
 #>     title = {ebvcube: Working with netCDF for Essential Biodiversity Variables},
 #>     author = {Luise Quoss and Nestor Fernandez and Christian Langer and Jose Valdez and Henrique Miguel Pereira},
 #>     year = {2024},
-#>     note = {R package version 0.3.2},
+#>     note = {R package version 0.3.3},
 #>     organization = {German Centre for Integrative Biodiversity Research (iDiv) Halle-Jena-Leipzig},
 #>     address = {Germany},
 #>     url = {https://github.com/EBVcube/ebvcube},
