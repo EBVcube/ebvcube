@@ -1,6 +1,14 @@
 # ebvcube 0.3.3
 
 ## Bug fixes
+
+## Minor changes
+
+- ebv_download: add doi (now available in API)
+
+# ebvcube 0.3.3
+
+## Bug fixes
 - update EBV Data Portal website URL
 
 # ebvcube 0.3.2

@@ -1,7 +1,7 @@
 #BEFORE SUBMITTING TO CRAN
 setwd(dirname(rstudioapi::getSourceEditorContext()$path))
 
-#1. update date and version number in DESCRIPTION file
+#1. update date AND version number in DESCRIPTION file
 #2. update News.md
 #3. update the CITATION.cff
 cffr::cff_write(dependencies=FALSE)

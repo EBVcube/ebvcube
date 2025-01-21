@@ -71,9 +71,10 @@ ebv_download <- function(id=NULL,
   datasets_list <- cbind(datasets_list, datasets$data$title) # add id
   colnames(datasets_list) <- c('id', 'title')
   datasets_list <- as.data.frame(datasets_list)
+  datasets_list$doi <- datasets$data$doi
   datasets_list <- datasets_list[order(as.numeric(datasets_list$id)), ] #sort by id
   datasets_list$id <- as.integer(datasets_list$id)
-  datasets_list$doi <- c('coming soon')
+
 
   if(is.null(id)){
     #no dataset chosen

@@ -39,6 +39,16 @@ if(portal_down){
     unlink(dir, recursive=TRUE)
   })
 
+  test_that("test ebv_download DOIs in download overview table", {
+    data <- ebv_download(verbose=FALSE)
+    #check col names
+    expect_equal(names(data), c("id","title","doi"))
+    #check a view DOIs
+    expect_equal(data[data$id==7, 'doi'], '10.25829/f2rdp4')
+    expect_equal(data[data$id==42, 'doi'], '10.25829/tder31')
+    expect_equal(data[data$id==28, 'doi'], '10.25829/bk5g87')
+  })
+
 }
 
 
