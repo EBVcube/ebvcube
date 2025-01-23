@@ -104,7 +104,8 @@ ebv_create_taxonomy <- function(jsonpath, outputpath, taxonomy, lsid=FALSE,
       }
     }
   )
-  dids <- c('crs.id', 'lat.id', 'lon.id', 'time.id', 'did', 'entity.id')
+  dids <- c('crs.id', 'lat.id', 'lon.id', 'time.id', 'did', 'entity.id',
+            'ent_list_did', 'ent_level_did', 'lsid_did')
   withr::defer(
     for (id in dids){
       if(exists(id)){
@@ -1152,6 +1153,12 @@ ebv_create_taxonomy <- function(jsonpath, outputpath, taxonomy, lsid=FALSE,
     }
     rhdf5::H5Dclose(lsid_did)
   }
+  #entity_list
+  ent_list_did <- rhdf5::H5Dopen(hdf, 'entity_list')
+  if(rhdf5::H5Aexists(ent_list_did, 'rhdf5-NA.OK')){
+    rhdf5::H5Adelete(ent_list_did, 'rhdf5-NA.OK')
+  }
+  rhdf5::H5Dclose(ent_list_did)
 
   # close file 2 ----
   rhdf5::H5Fclose(hdf)

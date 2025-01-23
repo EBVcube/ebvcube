@@ -1,6 +1,7 @@
 # ebvcube 0.3.3
 
 ## Bug fixes
+- ebv_create_taxonomy: remove rhdf5-Na.OK attribute from entity_list
 
 ## Minor changes
 - ebv_download: add doi (now available in API)
