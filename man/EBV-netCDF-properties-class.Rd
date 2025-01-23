@@ -25,7 +25,8 @@ taxonomy_lsid}
 \item{\code{spatial}}{Named list. Elements: wkt2, epsg, extent, resolution,
 crs_units, dimensions, scope, description}
 
-\item{\code{temporal}}{Named list. Elements: resolution, units, timesteps, dates}
+\item{\code{temporal}}{Named list. Elements: resolution, units, timesteps, dates,
+time_coverage_start, time_coverage_end}
 
 \item{\code{metric}}{Named list. Elements: name, description, units}
 

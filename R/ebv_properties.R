@@ -10,7 +10,8 @@
 #'   taxonomy_lsid
 #' @slot spatial Named list. Elements: wkt2, epsg, extent, resolution,
 #'   crs_units, dimensions, scope, description
-#' @slot temporal Named list. Elements: resolution, units, timesteps, dates
+#' @slot temporal Named list. Elements: resolution, units, timesteps, dates,
+#'   time_coverage_start, time_coverage_end
 #' @slot metric Named list. Elements: name, description, units
 #' @slot scenario Named list. Elements: name, description
 #' @slot ebv_cube Named list. Elements: units, coverage_content_type, fillvalue,
@@ -229,6 +230,8 @@ ebv_properties <-
     date_created <- ebv_i_read_att(hdf, 'date_created', verbose)
     date_issued <- ebv_i_read_att(hdf, 'date_issued', verbose)
     licence <- ebv_i_read_att(hdf, 'license', verbose)
+    time_coverage_start <- ebv_i_read_att(hdf, 'time_coverage_start', verbose)
+    time_coverage_end <- ebv_i_read_att(hdf, 'time_coverage_end', verbose)
 
     #entities info
     did <- rhdf5::H5Dopen(hdf, 'entity')#HERE
@@ -362,8 +365,10 @@ ebv_properties <-
       'resolution' = t_res,
       'units' = t_units,
       'timesteps' = time_data,
-      'dates' = time_natural
-    )
+      'dates' = time_natural,
+      'time_coverage_start' = time_coverage_start,
+      'time_coverage_end' = time_coverage_end
+      )
 
     # FILE AND DATACUBE ----
     if (!is.null(datacubepath)) {
@@ -465,7 +470,6 @@ ebv_properties <-
       scenario = scenario,
       ebv_cube = ebv_cube
     )
-
 
     #close file
     rhdf5::H5Fclose(hdf)

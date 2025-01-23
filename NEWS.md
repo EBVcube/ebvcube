@@ -3,8 +3,8 @@
 ## Bug fixes
 
 ## Minor changes
-
 - ebv_download: add doi (now available in API)
+- ebv_properties: add time_coverage_start and time_coverage_end
 
 # ebvcube 0.3.3
 

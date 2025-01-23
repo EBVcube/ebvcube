@@ -62,6 +62,8 @@ test_that("ebv_properties: check temporal", {
   expect_equal(prop$dates[2], as.Date("2015-01-01"))
   expect_equal(prop$dates[3], as.Date("2050-01-01"))
   expect_equal(dim(prop$dates), 3)
+  expect_equal(prop$time_coverage_start, '1900-01-01')
+  expect_equal(prop$time_coverage_end, '2050-01-01')
   })
 
 test_that("ebv_properties: check metric", {
