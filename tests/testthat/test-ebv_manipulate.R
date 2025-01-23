@@ -126,6 +126,11 @@ test_that("test ebv_create, ebv_add_data and ebv_attribute", {
   rhdf5::H5Gclose(gid)
   rhdf5::H5Fclose(hdf)
 
+  # test date_modified and date_metadata_modified ----
+  gen <- ebv_properties(file, verbose = FALSE)@general
+  expect_equal(gen$date_metadata_modified, '2022-02-16')
+  expect_equal(gen$date_modified, '2022-02-16')
+
   #test ebv_add_data ----
   dims <- ebv_properties(file, 'scenario_1/metric_1/ebv_cube', verbose=FALSE)@spatial$dimensions[1:2]
   RandomNum <- as.integer(runif(64800, 1, 99))

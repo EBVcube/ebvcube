@@ -49,6 +49,8 @@ test_that("ebv_properties: check general", {
   expect_equal(prop$entity_scope,'Bird species (forest and non-forest)')
   expect_equal(prop$entity_classification_name,'N/A')
   expect_equal(prop$entity_classification_url,'N/A')
+  expect_equal(prop$date_metadata_modified, NULL)
+  expect_equal(prop$date_modified, NULL)
 
 })
 

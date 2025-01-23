@@ -7,7 +7,7 @@
 #'   id, history, licence, conventions, naming_authority, date_created,
 #'   date_issued, entity_names, entity_type, entity_scope,
 #'   entity_classification_name, entity_classification_url, taxonomy,
-#'   taxonomy_lsid
+#'   taxonomy_lsid, date_modified, date_metadata_modified
 #' @slot spatial Named list. Elements: wkt2, epsg, extent, resolution,
 #'   crs_units, dimensions, scope, description
 #' @slot temporal Named list. Elements: resolution, units, timesteps, dates,
@@ -232,6 +232,8 @@ ebv_properties <-
     licence <- ebv_i_read_att(hdf, 'license', verbose)
     time_coverage_start <- ebv_i_read_att(hdf, 'time_coverage_start', verbose)
     time_coverage_end <- ebv_i_read_att(hdf, 'time_coverage_end', verbose)
+    date_modified <- ebv_i_read_att(hdf, 'date_modified', verbose)
+    date_metadata_modified <- ebv_i_read_att(hdf, 'date_metadata_modified', verbose)
 
     #entities info
     did <- rhdf5::H5Dopen(hdf, 'entity')#HERE
@@ -342,6 +344,8 @@ ebv_properties <-
         'naming_authority' = naming_authority,
         'date_created' = date_created,
         'date_issued' = date_issued,
+        'date_metadata_modified' = date_metadata_modified,
+        'date_modified' = date_modified,
         'entity_names' = entity_names,
         'entity_type' = ebv_entity_type,
         'entity_scope' = ebv_entity_scope,

@@ -5,7 +5,8 @@
 
 ## Minor changes
 - ebv_download: add doi (now available in API)
-- ebv_properties: add time_coverage_start and time_coverage_end
+- ebv_properties: add time_coverage_start and time_coverage_end + date_metadata_modified and date_modified
+- ebv_create(_taxonomy): add date_metadata_modified and date_modified
 
 # ebvcube 0.3.3
 
