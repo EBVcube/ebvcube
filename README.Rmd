@@ -31,8 +31,9 @@ The EBV netCDF structure is designed to hold Essential Biodiversity Variables. T
 The files are based on the [Network Common Data Format](https://www.unidata.ucar.edu/software/netcdf/) (netCDF). Additionally, it follows the [Climate and Forecast Conventions](https://cfconventions.org/Data/cf-conventions/cf-conventions-1.8/cf-conventions.html) (CF, version 1.8) and the [Attribute Convention for Data Discovery](https://wiki.esipfed.org/Attribute_Convention_for_Data_Discovery_1-3) (ACDD, version 1.3).
 
 ## 2. Data structure
-The structure allows several datacubes per netCDF file. These cubes have four dimensions: longitude, latitude, time and entity, whereby the last dimension can, e.g., encompass different species or groups of species, ecosystem types or other. The usage of hierarchical groups enables the coexistence of multiple data cubes. All cubes share the same dimensions.
-The first level (netCDF group) are scenarios, e.g., the modelling for different Shared Socioeconomic Pathways (SSP) scenarios. The second level (netCDF group) are metrics, e.g., the percentage of protected area per pixel and its proportional loss over a certain time span per pixel. All metrics are repeated per scenario, if any are present.
+The structure allows several data cubes per netCDF file. These cubes have four dimensions: longitude, latitude, time and entity, whereby the last dimension can, e.g., encompass different species or groups of species, ecosystem types or other. The usage of hierarchical groups enables the coexistence of multiple data cubes. All cubes share the same dimensions.
+The first level (netCDF group) are scenarios, e.g., the modelling for different Shared Socioeconomic Pathways (SSP) scenarios. The second level (netCDF group) are metrics, e.g., the percentage of protected area per pixel and its proportional loss over a certain time span per pixel. All metrics are repeated per scenario, if any are present. 
+For an extensive explanation check out the [EBVCube format repository](https://github.com/EBVcube/EBVCube-format). 
 
 ```bash
 ├── scenario_1

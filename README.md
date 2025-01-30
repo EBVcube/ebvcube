@@ -34,16 +34,18 @@ Discovery](https://wiki.esipfed.org/Attribute_Convention_for_Data_Discovery_1-3)
 
 ## 2. Data structure
 
-The structure allows several datacubes per netCDF file. These cubes have
-four dimensions: longitude, latitude, time and entity, whereby the last
-dimension can, e.g., encompass different species or groups of species,
-ecosystem types or other. The usage of hierarchical groups enables the
-coexistence of multiple data cubes. All cubes share the same dimensions.
-The first level (netCDF group) are scenarios, e.g., the modelling for
-different Shared Socioeconomic Pathways (SSP) scenarios. The second
-level (netCDF group) are metrics, e.g., the percentage of protected area
-per pixel and its proportional loss over a certain time span per pixel.
-All metrics are repeated per scenario, if any are present.
+The structure allows several data cubes per netCDF file. These cubes
+have four dimensions: longitude, latitude, time and entity, whereby the
+last dimension can, e.g., encompass different species or groups of
+species, ecosystem types or other. The usage of hierarchical groups
+enables the coexistence of multiple data cubes. All cubes share the same
+dimensions. The first level (netCDF group) are scenarios, e.g., the
+modelling for different Shared Socioeconomic Pathways (SSP) scenarios.
+The second level (netCDF group) are metrics, e.g., the percentage of
+protected area per pixel and its proportional loss over a certain time
+span per pixel. All metrics are repeated per scenario, if any are
+present. For an extensive explanation check out the [EBVCube format
+repository](https://github.com/EBVcube/EBVCube-format).
 
 ``` bash
 ├── scenario_1
@@ -344,7 +346,7 @@ citation('ebvcube')
 #>   Quoss L, Fernandez N, Langer C, Valdez J, Pereira H (2024). _ebvcube:
 #>   Working with netCDF for Essential Biodiversity Variables_. German
 #>   Centre for Integrative Biodiversity Research (iDiv)
-#>   Halle-Jena-Leipzig, Germany. R package version 0.3.3,
+#>   Halle-Jena-Leipzig, Germany. R package version 0.3.4,
 #>   <https://github.com/EBVcube/ebvcube>.
 #> 
 #> A BibTeX entry for LaTeX users is
@@ -353,7 +355,7 @@ citation('ebvcube')
 #>     title = {ebvcube: Working with netCDF for Essential Biodiversity Variables},
 #>     author = {Luise Quoss and Nestor Fernandez and Christian Langer and Jose Valdez and Henrique Miguel Pereira},
 #>     year = {2024},
-#>     note = {R package version 0.3.3},
+#>     note = {R package version 0.3.4},
 #>     organization = {German Centre for Integrative Biodiversity Research (iDiv) Halle-Jena-Leipzig},
 #>     address = {Germany},
 #>     url = {https://github.com/EBVcube/ebvcube},
