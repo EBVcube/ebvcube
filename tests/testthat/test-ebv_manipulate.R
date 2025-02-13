@@ -29,18 +29,23 @@ test_that("test ebv_create, ebv_add_data and ebv_attribute", {
              overwrite = TRUE,
              verbose = FALSE))
 
+  #test publisher and user url----
+  gen <- ebv_properties(file, verbose=FALSE)@general
+  expect_equal(gen$creator_url, "test-creator-url")
+  expect_equal(gen$publisher_url, "test-publisher-url")
+
   #test ebv_attribute: keyword modification  ----
   domain_old <- ebv_properties(file, verbose=FALSE)@general$ebv_domain
   if(domain_old=='Marine'){
     ebv_attribute(file, 'ebv_domain', 'Terrestrial', verbose=FALSE)
     prop <- ebv_properties(file, verbose=FALSE)@general
     expect_equal(prop$ebv_domain, 'Terrestrial')
-    expect_equal(prop$keywords, "ebv_class: Community composition, ebv_name: Taxonomic/phylogenetic diversity, ebv_domain: Terrestrial, ebv_spatial_scope: Global, ebv_entity_type: Communities, ebv_scenario_classification_name: SSP-RCP")
+    expect_equal(prop$keywords, "ebv_class: Community composition, ebv_name: Taxonomic and phylogenetic diversity, ebv_domain: Terrestrial, ebv_geospatial_scope: Global, ebv_entity_type: Communities, ebv_scenario_classification_name: SSP-RCP")
   }else{
     ebv_attribute(file, 'ebv_domain', 'Marine', verbose = FALSE)
     prop <- ebv_properties(file, verbose=FALSE)@general
     expect_equal(prop$ebv_domain, 'Marine')
-    expect_equal(prop$keywords, "ebv_class: Community composition, ebv_name: Taxonomic/phylogenetic diversity, ebv_domain: Marine, ebv_spatial_scope: Global, ebv_entity_type: Communities, ebv_scenario_classification_name: SSP-RCP")
+    expect_equal(prop$keywords, "ebv_class: Community composition, ebv_name: Taxonomic and phylogenetic diversity, ebv_domain: Marine, ebv_geospatial_scope: Global, ebv_entity_type: Communities, ebv_scenario_classification_name: SSP-RCP")
   }
 
   #test ebv_attribute: modification of metric attribute  ----
@@ -111,7 +116,7 @@ test_that("test ebv_create, ebv_add_data and ebv_attribute", {
 
   #test ebv_attribute: check ebv class and ebv name ----
   expect_error(ebv_attribute(file, 'ebv_class', 'wrong ebv class'), regexp = 'You are trying to change the ebv_class to a value that is not possible.')
-  expect_warning(ebv_attribute(file, 'ebv_class', 'Ecosystem structure'), regexp = 'The current ebv_name Taxonomic/phylogenetic diversity does not correspond the new ebv_class Ecosystem structure. Possible ebv_name values: Live cover fraction, Ecosystem distribution, Ecosystem Vertical Profile. Change ebv_name!')
+  expect_warning(ebv_attribute(file, 'ebv_class', 'Ecosystem structure'), regexp = 'The current ebv_name Taxonomic and phylogenetic diversity does not correspond the new ebv_class Ecosystem structure. Possible ebv_name values: Live cover fraction, Ecosystem distribution, Ecosystem Vertical Profile. Change ebv_name!')
   expect_error(ebv_attribute(file, 'ebv_name', 'Community abundance'), regexp = 'ou are trying to change the ebv_name to a value that is not possible for ebv_class Ecosystem structure. If both values are to be changed, change ebv_class first.')
   expect_silent(ebv_attribute(file, 'ebv_name', 'Ecosystem distribution'))
 
@@ -128,8 +133,8 @@ test_that("test ebv_create, ebv_add_data and ebv_attribute", {
 
   # test date_modified and date_metadata_modified ----
   gen <- ebv_properties(file, verbose = FALSE)@general
-  expect_equal(gen$date_metadata_modified, '2022-02-16')
-  expect_equal(gen$date_modified, '2022-02-16')
+  expect_equal(gen$date_metadata_modified, '2022-03-21')
+  expect_equal(gen$date_modified, '2022-03-21')
 
   #test ebv_add_data ----
   dims <- ebv_properties(file, 'scenario_1/metric_1/ebv_cube', verbose=FALSE)@spatial$dimensions[1:2]

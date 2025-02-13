@@ -1,12 +1,18 @@
-# ebvcube 0.3.3
+# ebvcube 0.4.0
 
-## Bug fixes
-- ebv_create_taxonomy: remove rhdf5-Na.OK attribute from entity_list
+## Major changes
+- renamed metadata terms: 'ebv_spatial_scope' to 'ebv_geospatial_scope' and 'ebv_spatial_description' to 'ebv_geospatial_description'
 
 ## Minor changes
 - ebv_download: add doi (now available in API)
 - ebv_properties: add time_coverage_start and time_coverage_end + date_metadata_modified and date_modified
 - ebv_create(_taxonomy): add date_metadata_modified and date_modified
+- added new metadata terms: publisher_url, creator_url
+- add new test-data, update tests regarding updated metadata terms and JSONs
+
+## Bug fixes
+- ebv_create_taxonomy: remove rhdf5-Na.OK attribute from entity_list
+
 
 # ebvcube 0.3.3
 

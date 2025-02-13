@@ -7,8 +7,8 @@ test_that("ebv_datacubepaths martins_comcom_id1_20220208_v1.nc", {
   expect_equal(datacubes, result)
 })
 
-test_that("ebv_datacubepaths pereira_csar_bes_sim_20220830_4d.nc", {
-  file <- system.file(file.path("extdata/testdata","pereira_csar_bes_sim_20220830_4d.nc"), package="ebvcube")
+test_that("ebv_datacubepaths pereira_csar_bes_sim_20250213_4d.nc", {
+  file <- system.file(file.path("extdata/testdata","pereira_csar_bes_sim_20250213_4d.nc"), package="ebvcube")
   result <- data.frame(c('scenario_1/metric_1/ebv_cube', 'scenario_1/metric_2/ebv_cube',
                          'scenario_1/metric_3/ebv_cube',
                          'scenario_2/metric_1/ebv_cube', 'scenario_2/metric_2/ebv_cube',

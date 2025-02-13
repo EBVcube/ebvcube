@@ -137,7 +137,7 @@ ebv_attribute <- function(filepath, attribute_name, value,
     'project', 'date_created', 'creator_name', 'creator_institution',
     'creator_email', 'license', 'contributor_name', 'publisher_name',
     'publisher_institution', 'publisher_email', 'comment',
-    'ebv_class', 'ebv_name', 'ebv_spatial_scope', 'ebv_spatial_description',
+    'ebv_class', 'ebv_name', 'ebv_geospatial_scope', 'ebv_geospatial_description',
     'ebv_domain', 'ebv_scenario_classification_name', 'processing_level',
     #scenario and metric
     'standard_name', 'long_name',
@@ -476,7 +476,7 @@ ebv_attribute <- function(filepath, attribute_name, value,
 
   #check if any attribute inside keywords is changed -> change keywords ----
   if (attribute_name == 'ebv_class' || attribute_name == 'ebv_name' || attribute_name == 'ebv_domain' ||
-      attribute_name == 'ebv_spatial_scope' || attribute_name == 'ebv_entity_type'){
+      attribute_name == 'ebv_geospatial_scope' || attribute_name == 'ebv_entity_type'){
     #reopen file
     hdf <- rhdf5::H5Fopen(filepath)
     keywords_old <- ebv_i_read_att(hdf, 'keywords', verbose)
@@ -490,8 +490,8 @@ ebv_attribute <- function(filepath, attribute_name, value,
     }else if(attribute_name == 'ebv_name'){
       start_j <- stringr::str_locate(keywords_old, ', ebv_domain')[1]
     }else if(attribute_name == 'ebv_domain'){
-      start_j <- stringr::str_locate(keywords_old, ', ebv_spatial_scope')[1]
-    }else if(attribute_name == 'ebv_spatial_scope'){
+      start_j <- stringr::str_locate(keywords_old, ', ebv_geospatial_scope')[1]
+    }else if(attribute_name == 'ebv_geospatial_scope'){
       start_j <- stringr::str_locate(keywords_old, ', ebv_entity_type')[1]
     }else if(attribute_name == 'ebv_entity_type'){
       start_j <- nchar(keywords_old)+1

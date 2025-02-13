@@ -23,8 +23,9 @@ test_that("test ebv_resample multiple timesteps, given resolution, metric", {
 
 test_that("test ebv_resample single timestep, given second netCDF", {
   file_src <- system.file(file.path("extdata","martins_comcom_subset.nc"), package="ebvcube")
-  file_dest <- system.file(file.path("extdata/testdata","pereira_csar_bes_sim_20220830_4d.nc"), package="ebvcube")
-  data <- ebv_resample(file_src, 'metric_1/ebv_cube', 1, 1, file_dest,
+  file_dest <- system.file(file.path("extdata/testdata","pereira_csar_bes_sim_20250213_4d.nc"), package="ebvcube")
+  data <- ebv_resample(file_src, 'metric_1/ebv_cube', entity = 1,
+                       timestep = 1, file_dest,
                        file.path(tempdir(), 'test_1.tif'), return_raster=T,
                        verbose=FALSE)
   file.remove(file.path(tempdir(), 'test_1.tif'))

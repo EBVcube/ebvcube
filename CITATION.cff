@@ -8,7 +8,7 @@ message: 'To cite package "ebvcube" in publications use:'
 type: software
 license: GPL-3.0-or-later
 title: 'ebvcube: Working with netCDF for Essential Biodiversity Variables'
-version: 0.3.3
+version: 0.4.0
 identifiers:
 - type: doi
   value: 10.32614/CRAN.package.ebvcube
@@ -63,7 +63,7 @@ preferred-citation:
     email: henrique.pereira@idiv.de
     orcid: https://orcid.org/0000-0003-1043-1675
   year: '2024'
-  notes: R package version 0.3.3
+  notes: R package version 0.4.0
   institution:
     name: German Centre for Integrative Biodiversity Research (iDiv) Halle-Jena-Leipzig
     address: Germany
@@ -71,7 +71,7 @@ preferred-citation:
 repository: https://CRAN.R-project.org/package=ebvcube
 repository-code: https://github.com/EBVcube/ebvcube
 url: https://github.com/EBVCube/ebvcube
-date-released: '2024-12-16'
+date-released: '2025-02-13'
 contact:
 - family-names: Quoss
   given-names: Luise

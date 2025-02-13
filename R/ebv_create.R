@@ -738,22 +738,24 @@ ebv_create <- function(jsonpath, outputpath, entities, epsg = 4326,
   global.att['creator_name'] <- 'creator$creator_name'
   global.att['creator_institution'] <- 'creator$creator_institution'
   global.att['creator_email'] <- 'creator$creator_email'
+  global.att['creator_url'] <- 'creator$creator_url'
   global.att['license'] <- 'license'
   global.att['contributor_name'] <- 'contributor_name'
   global.att['publisher_name'] <- 'publisher$publisher_name'
   global.att['publisher_institution'] <- 'publisher$publisher_institution'
   global.att['publisher_email'] <- 'publisher$publisher_email'
+  global.att['publisher_url'] <- 'publisher$publisher_url'
   global.att['comment'] <- 'comment'
   global.att['ebv_class']<-'ebv$ebv_class'
   global.att['ebv_name']<-'ebv$ebv_name'
-  global.att['ebv_spatial_scope']<-'ebv_geospatial$ebv_geospatial_scope'
-  global.att['ebv_spatial_description']<-'ebv_geospatial$ebv_geospatial_description'
+  global.att['ebv_geospatial_scope']<-'ebv_geospatial$ebv_geospatial_scope'
+  global.att['ebv_geospatial_description']<-'ebv_geospatial$ebv_geospatial_description'
   global.att['ebv_domain']<-'ebv_domain'
   }
 
   #keywords
   keywords <- paste0('ebv_class: ', json$ebv$ebv_class, ', ebv_name: ', json$ebv$ebv_name,
-                     ', ebv_domain: ', paste0(json$ebv_domain[[1]], collapse=', '), ', ebv_spatial_scope: ',
+                     ', ebv_domain: ', paste0(json$ebv_domain[[1]], collapse=', '), ', ebv_geospatial_scope: ',
                      json$ebv_geospatial$ebv_geospatial_scope, ', ebv_entity_type: ',
                      json$ebv_entity$ebv_entity_type)
 
