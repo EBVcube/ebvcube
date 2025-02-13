@@ -1,3 +1,3 @@
 test_that("run lintr", {
-  expect_silent(lintr::lint_dir())
+  expect_silent(lintr::lint_dir(show_progress = FALSE))
 })
