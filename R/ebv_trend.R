@@ -225,18 +225,20 @@ ebv_trend <- function(filepath, datacubepath = NULL, entity = NULL, method='mean
     rm(data.all.raster)
 
   }else{
+    if(verbose){
+      print('Reading all data')
+    }
     #1. get data for spatial extent
     data.all <- HDF5Array::HDF5Array(filepath = filepath, name =datacubepath,
                                      type = type.short)
-
-    #mask out fillvalue
-    data.all <- replace(data.all, data.all==fillvalue, c(NA))
 
     #data.all
     if(is_4D){
       data.all <- data.all[, , , entity_index]
     }
 
+    #mask out fillvalue
+    data.all <- replace(data.all, data.all==fillvalue, c(NA))
 
   }
 
