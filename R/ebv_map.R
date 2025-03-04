@@ -216,7 +216,7 @@ ebv_map <- function(filepath, datacubepath = NULL, entity=NULL, timestep=1, coun
   }
 
   #replace nodata value
-  data.all <- replace(data.all, data.all==fillvalue[1], NA)
+  data.all <- replace(data.all, data.all==nodata[1], NA)
 
   #get the raster for plotting----
   #in case the raster is too big for memory -> resample and plot at lower resolution
