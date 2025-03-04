@@ -192,7 +192,7 @@ ebv_read <- function(filepath, datacubepath = NULL,  entity=NULL, timestep=1,
         #rotate matrix
         h5array <- DelayedArray::aperm(DelayedArray::aperm(entity_part, 3:1), c(2, 3, 1))
         #replace NA value
-        h5array <- replace(h5array, h5array==fillvalue, c(NA))
+        h5array <- replace(h5array, h5array==fillvalue[1], NA) #HERE
       }
       else{
         #select slice
@@ -200,7 +200,7 @@ ebv_read <- function(filepath, datacubepath = NULL,  entity=NULL, timestep=1,
         #rotate matrix
         h5array <- t(h5array[, , drop=FALSE])
         #replace NA value
-        h5array <- replace(h5array, h5array==fillvalue, c(NA))
+        h5array <- replace(h5array, h5array==fillvalue[1], NA) #HERE
       }
     } else{
       # 3D strucuture
