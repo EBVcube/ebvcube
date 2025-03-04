@@ -238,7 +238,7 @@ ebv_trend <- function(filepath, datacubepath = NULL, entity = NULL, method='mean
     }
 
     #mask out fillvalue
-    data.all <- replace(data.all, data.all==fillvalue, c(NA))
+    data.all <- replace(data.all, data.all==fillvalue[1], NA)
 
   }
 
