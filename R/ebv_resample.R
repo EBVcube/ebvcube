@@ -305,7 +305,12 @@ ebv_resample <- function(filepath_src, datacubepath_src = NULL, entity_src=NULL,
   #align to origin of the destination file
   data_proj <- tryCatch(
     {
-      data_proj <- terra::project(data_ts, y = dummy, align=TRUE, method=method, gdal=TRUE)
+      data_proj <- terra::project(data_ts, y = dummy,
+                                  align = TRUE,
+                                  method = method,
+                                  gdal = TRUE,
+                                  use_gdal = TRUE,
+                                  threads = TRUE)
     },
     error=function(e){
       # if (!stringr::str_detect(e, 'cannot create dataset from source')){
@@ -315,7 +320,12 @@ ebv_resample <- function(filepath_src, datacubepath_src = NULL, entity_src=NULL,
         message('Slower algorithm needs to be used. Please be patient.')
       }
 
-      data_proj <- terra::project(data_ts, y = dummy, align=TRUE, method=method, gdal=FALSE)
+      data_proj <- terra::project(data_ts, y = dummy,
+                                  align = TRUE,
+                                  method = method,
+                                  gdal = TRUE,
+                                  by_util = TRUE,
+                                  threads = TRUE)
     }
   )
 
