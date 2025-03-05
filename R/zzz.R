@@ -3,7 +3,3 @@
   terra::gdal(warn=2)
   packageStartupMessage("ebvcube package version ", utils::packageVersion('ebvcube'))
 }
-
-.onLoad <- function(lib, pkg) {
-  terra::gdal(warn=2)
-}
