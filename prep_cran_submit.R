@@ -18,6 +18,9 @@ devtools::build_readme()
 devtools::test()
 devtools::run_examples()
 devtools::check()
+#9. optional: run tests and checks with gdal(warn=1) to check out the gdal warnings
+
+
 
 # Check package as CRAN
 # rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"))

@@ -101,6 +101,7 @@ The properties encompass much more information!
 
 ``` r
 library(ebvcube)
+#> ebvcube package version 0.4.0
 
 #set the path to the file
 file <- system.file(file.path("extdata", "martins_comcom_subset.nc"), package="ebvcube")
