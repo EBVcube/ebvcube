@@ -80,8 +80,6 @@ ebv_resample <- function(filepath_src, datacubepath_src = NULL, entity_src=NULL,
                          scenario = NULL, metric = NULL, return_raster=FALSE,
                          overwrite = FALSE, ignore_RAM=FALSE, verbose=TRUE){
   ####initial tests start ----
-  #set gdal warning level to 2
-  terra::gdal(warn=2)
 
   # ensure file and all datahandles are closed on exit
   withr::defer(
