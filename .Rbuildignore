@@ -27,6 +27,7 @@
 ^inst/docs/ebvcube_0.3.1.pdf
 ^inst/docs/ebvcube_0.3.2.pdf
 ^inst/docs/ebvcube_0.3.3.pdf
+^inst/docs/ebvcube_0.4.0.pdf
 ^CITATION\.cff$
 ebv_taxonomy_app.R
 ebv_taxonomy_server.R

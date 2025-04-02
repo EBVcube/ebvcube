@@ -8,7 +8,10 @@ message: 'To cite package "ebvcube" in publications use:'
 type: software
 license: GPL-3.0-or-later
 title: 'ebvcube: Working with netCDF for Essential Biodiversity Variables'
-version: 0.4.0
+version: 0.5.0
+identifiers:
+- type: doi
+  value: 10.32614/CRAN.package.ebvcube
 abstract: 'The concept of Essential Biodiversity Variables (EBV, <https://geobon.org/ebvs/what-are-ebvs/>)
   comes with a data structure based on the Network Common Data Form (netCDF). The
   ''ebvcube'' ''R'' package provides functionality to easily create, access and visualise
@@ -60,14 +63,15 @@ preferred-citation:
     email: henrique.pereira@idiv.de
     orcid: https://orcid.org/0000-0003-1043-1675
   year: '2024'
-  notes: R package version 0.4.0
+  notes: R package version 0.5.0
   institution:
     name: German Centre for Integrative Biodiversity Research (iDiv) Halle-Jena-Leipzig
     address: Germany
   url: https://github.com/EBVcube/ebvcube
+repository: https://CRAN.R-project.org/package=ebvcube
 repository-code: https://github.com/EBVcube/ebvcube
 url: https://github.com/EBVCube/ebvcube
-date-released: '2025-03-05'
+date-released: '2025-04-02'
 contact:
 - family-names: Quoss
   given-names: Luise

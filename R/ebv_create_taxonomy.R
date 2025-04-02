@@ -14,16 +14,24 @@
 #'@param taxonomy Character. Path to the csv table holding the taxonomy.
 #'  Default: comma-separated delimiter, else change the `sep` argument
 #'  accordingly. The csv needs to have the following structure: The header
-#'  displays the names of the different taxon levels ordered from the highest
-#'  level to the lowest, e.g. "Order", "Family", "Genus", "Species". The last
-#'  column (if `lsid`=FALSE) is equivalent to the `entity` argument in the
-#'  [ebvcube::ebv_create()] function. Each row of the csv corresponds to a
-#'  unique entity. In case the `lsid` argument (see below) is set to the TRUE,
-#'  this table gets an additional last column which holds the lsid per entity -
-#'  in this case the second last column contains the entity names, e.g. the
-#'  following column order: "Order", "Family", "Genus", "Species", "lsid".
-#'@param lsid Logical. Default: FALSE. Set to TRUE if the last column in your
-#'  taxonomy csv file defines the lsid for each entity. For more info check
+#'  displays the names of the different taxonomy levels ordered from the highest
+#'  level to the lowest, e.g. "order", "family", "genus", "scientificName". We
+#'  strongly encourage the usage of the \href{https://dwc.tdwg.org/terms/#taxon}{Darwin
+#'  Core terminology} for the taxonomy levels. The last column (if `taxonomy_key`=FALSE)
+#'  is equivalent to the `entity` argument in the [ebvcube::ebv_create()]
+#'  function. Each row of the csv corresponds to a unique entity. In case the
+#'  `taxonomy_key` argument (see below) is set to TRUE, this table gets an
+#'  additional last column which holds the taxonomy key per entity - in this
+#'  case the second last column contains the entity names, e.g. the following
+#'  column order: "order", "family", "genus", "scientificName", "taxonomy_key".
+#'  The last column (here named "taxonomy_key") should have the exact name of
+#'  the taxonomy key from the authority of the taxonomic backbone. It will be
+#'  added as an additional
+#'  attribute to the netCDF. For example, if your taxonomy is based on the \href{https://www.gbif.org/dataset/d7dddbf4-2cf0-4f39-9b2a-bb099caae36c}{GBIF
+#'  Backbone Taxonomy} the column name could be "usageKey".
+#'@param taxonomy_key Logical. Default: FALSE. Set to TRUE if the last column in
+#'  your taxonomy csv file defines the taxonomy_key for each entity. For more
+#'  info check
 #'   \href{https://cfconventions.org/Data/cf-conventions/cf-conventions-1.8/cf-conventions.html#taxon-names-and-identifiers}{CF
 #'   convention 1.8: Taxon Names and Identifiers}.
 #'@param epsg Integer. Default: 4326 (WGS84). Defines the coordinate reference
@@ -59,7 +67,7 @@
 #'  NASA.
 #'
 #'@note You can check the taxonomy info with [ebvcube::ebv_properties()] in the
-#'  slot 'general' under the name 'taxonomy' and 'taxonomy_lsid'.
+#'  slot 'general' under the name 'taxonomy' and 'taxonomy_key'.
 #'
 #'@return Creates the netCDF file at the 'outputpath' location including the
 #'  taxonomy information.
@@ -82,7 +90,7 @@
 #' #remove file
 #' file.remove(out)
 #' }
-ebv_create_taxonomy <- function(jsonpath, outputpath, taxonomy, lsid=FALSE,
+ebv_create_taxonomy <- function(jsonpath, outputpath, taxonomy, taxonomy_key=FALSE,
                                 epsg = 4326, extent = c(-180, 180, -90, 90), resolution = c(1, 1),
                                 timesteps = NULL, fillvalue, prec = 'double',
                                 sep=',', force_4D = TRUE, overwrite = FALSE,
@@ -105,7 +113,7 @@ ebv_create_taxonomy <- function(jsonpath, outputpath, taxonomy, lsid=FALSE,
     }
   )
   dids <- c('crs.id', 'lat.id', 'lon.id', 'time.id', 'did', 'entity.id',
-            'ent_list_did', 'ent_level_did', 'lsid_did')
+            'ent_list_did', 'ent_level_did', 'taxonomy_key_did')
   withr::defer(
     for (id in dids){
       if(exists(id)){
@@ -293,22 +301,23 @@ ebv_create_taxonomy <- function(jsonpath, outputpath, taxonomy, lsid=FALSE,
   # read taxonomy info ----
   dim_csv <- dim(csv_txt)
 
-  #get entities and maybe lsid-list
-  if(lsid){
+  #get entities and maybe taxonomy_key-list
+  if(taxonomy_key){
+    key_name <- names(csv_txt)[dim_csv[2]]
     entities <- csv_txt[, (dim_csv[2]-1)]
-    lsid_list <- csv_txt[, dim_csv[2]]
+    taxonomy_key_list <- csv_txt[, dim_csv[2]]
     csv_txt <- csv_txt[, -dim_csv[2]]
     taxon_list <- names(csv_txt)
   }else{
     taxon_list <- names(csv_txt)
     entities <- csv_txt[, dim_csv[2]]
-    lsid_list <- NA
+    taxonomy_key_list <- NA
   }
 
-  #check lsid list and entities
-  if(lsid && (length(lsid_list)!=length(entities))){
-    stop(paste0('The length of your lsid-list differs from the length of the entities:\n',
-                'length lsid: ', length(lsid),
+  #check taxonomy_key list and entities
+  if(taxonomy_key && (length(taxonomy_key_list)!=length(entities))){
+    stop(paste0('The amoubt of your taxonomy keys differs from the length of the entities:\n',
+                'length taxonomy keys: ', length(taxonomy_key),
                 '\nlength entities: ', length(entities)))
   }
 
@@ -709,26 +718,26 @@ ebv_create_taxonomy <- function(jsonpath, outputpath, taxonomy, lsid=FALSE,
                                           dim=list(dimchar_entity, entity_dim),
                                           prec='char', verbose = verbose)
   enum <- enum+1
-  #add entity_list variable ----
-  var_list_nc[[enum]] <- ncdf4::ncvar_def(name = 'entity_list', unit='1', #HERE adimensional
+  #add taxonomy_table variable ----
+  var_list_nc[[enum]] <- ncdf4::ncvar_def(name = 'taxonomy_table', unit='1', #HERE adimensional
                                           dim=list(taxon_dim, entity_dim, dimchar_entity),
                                           prec='char', verbose = verbose)
   enum <- enum+1
 
-  # add entity_levels variable ----
+  # add taxonomy_levels variable ----
   max_char_taxonlevel <- max(nchar(taxon_list))
   dimchar_taxonlevel <- ncdf4::ncdim_def("nchar_taxonlist", "", 1:max_char_taxonlevel, create_dimvar=FALSE)
-  var_list_nc[[enum]] <- ncdf4::ncvar_def(name = 'entity_levels', unit='1', #HERE adimensional
+  var_list_nc[[enum]] <- ncdf4::ncvar_def(name = 'taxonomy_levels', unit='1', #HERE adimensional
                                           dim=list(taxon_dim, dimchar_taxonlevel),
                                           prec='char', verbose = verbose)
   enum <- enum+1
 
   # add entity_ids variable ----
-  if(lsid){
-    max_char_lsid <- max(nchar(lsid_list))
-    dimchar_lsid <- ncdf4::ncdim_def("nchar_lsid", "", 1:max_char_lsid, create_dimvar=FALSE)
-    var_list_nc[[enum]] <- ncdf4::ncvar_def(name = 'entity_lsid', unit='1', #HERE adimensional
-                                            dim=list(entity_dim, dimchar_lsid),
+  if(taxonomy_key){
+    max_char_taxonomy_key <- max(nchar(taxonomy_key_list))
+    dimchar_taxonomy_key <- ncdf4::ncdim_def("nchar_taxonid", "", 1:max_char_taxonomy_key, create_dimvar=FALSE)
+    var_list_nc[[enum]] <- ncdf4::ncvar_def(name = 'taxonomy_key', unit='1', #HERE adimensional
+                                            dim=list(entity_dim, dimchar_taxonomy_key),
                                             prec='char', verbose = verbose)
   }
 
@@ -1116,7 +1125,7 @@ ebv_create_taxonomy <- function(jsonpath, outputpath, taxonomy, lsid=FALSE,
   # close file 1 ----
   rhdf5::H5Fclose(hdf)
 
-  # add values to 'entity_list' var ----
+  # add values to 'taxonomy_table' var ----
   level_i <- length(taxon_list)
 
   for(level in taxon_list){
@@ -1128,44 +1137,47 @@ ebv_create_taxonomy <- function(jsonpath, outputpath, taxonomy, lsid=FALSE,
     }
 
     rhdf5::h5write(data_level_clean, file=outputpath,
-                   name="entity_list", index=list(level_i, NULL, NULL))
+                   name="taxonomy_table", index=list(level_i, NULL, NULL))
 
     level_i <- level_i-1
   }
 
 
 
-  # add values to 'entity_levels' var ----
+  # add values to 'taxonomy_levels' var ----
   level_d <- ebv_i_char_variable(taxon_list, max_char_taxonlevel, TRUE)
   rhdf5::h5write(level_d, file=outputpath,
-                 name="entity_levels")
+                 name="taxonomy_levels")
 
 
-  # add values to 'entity_lsid' var ----
-  if(lsid){
-    ls_id_d <- ebv_i_char_variable(lsid_list, max_char_lsid)
+  # add values to 'taxonomy_key' var ----
+  if(taxonomy_key){
+    ls_id_d <- ebv_i_char_variable(taxonomy_key_list, max_char_taxonomy_key)
     rhdf5::h5write(ls_id_d, file=outputpath,
-                   name="entity_lsid")
+                   name="taxonomy_key")
   }
 
   #delete automatically created attribute: :rhdf5-NA.OK ----
   hdf <- rhdf5::H5Fopen(outputpath)
-  #entity_levels
-  ent_level_did <- rhdf5::H5Dopen(hdf, 'entity_levels')
+  #taxonomy_levels
+  ent_level_did <- rhdf5::H5Dopen(hdf, 'taxonomy_levels')
   if(rhdf5::H5Aexists(ent_level_did, 'rhdf5-NA.OK')){
     rhdf5::H5Adelete(ent_level_did, 'rhdf5-NA.OK')
   }
   rhdf5::H5Dclose(ent_level_did)
-  #lsid
-  if(lsid){
-    lsid_did <- rhdf5::H5Dopen(hdf, 'entity_lsid')
-    if(rhdf5::H5Aexists(lsid_did, 'rhdf5-NA.OK')){
-      rhdf5::H5Adelete(lsid_did, 'rhdf5-NA.OK')
+  #taxonomy_key
+  if(taxonomy_key){
+    taxonomy_key_did <- rhdf5::H5Dopen(hdf, 'taxonomy_key')
+    if(rhdf5::H5Aexists(taxonomy_key_did, 'rhdf5-NA.OK')){
+      rhdf5::H5Adelete(taxonomy_key_did, 'rhdf5-NA.OK')
     }
-    rhdf5::H5Dclose(lsid_did)
+    #add taxonomy key name attribute
+    ebv_i_char_att(taxonomy_key_did, 'long_name', key_name)
+    #close Datahandle
+    rhdf5::H5Dclose(taxonomy_key_did)
   }
-  #entity_list
-  ent_list_did <- rhdf5::H5Dopen(hdf, 'entity_list')
+  #taxonomy_table
+  ent_list_did <- rhdf5::H5Dopen(hdf, 'taxonomy_table')
   if(rhdf5::H5Aexists(ent_list_did, 'rhdf5-NA.OK')){
     rhdf5::H5Adelete(ent_list_did, 'rhdf5-NA.OK')
   }

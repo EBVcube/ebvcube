@@ -1,61 +1,77 @@
+# ebvcube 0.5.0
+
+## Major changes
+
+-   ebv_create_taxonomy:
+    -   renamed entity_list and entity_levels to taxonomy_list and taxonomy_levels (ebv_properties still reads the old naming for now)
+    -   remove lsid and replace by taxonomy_key, add attribute to variable which refers to the name of the taxonomy_key of the authority of the taxonomic backbone (long_name)
+-   ebv_properties:
+    -   read either from entity_list and entity_levels or taxonomy_list and taxonomy_levels
+    -   read both: lsid and taxonomy_key
+
 # ebvcube 0.4.0
 
 ## Major changes
-- renamed metadata terms: 'ebv_spatial_scope' to 'ebv_geospatial_scope' and 'ebv_spatial_description' to 'ebv_geospatial_description'
-- ebv_create(_taxonomy): add date_metadata_modified and date_modified
-- added new metadata terms: publisher_url, creator_url
+
+-   renamed metadata terms: 'ebv_spatial_scope' to 'ebv_geospatial_scope' and 'ebv_spatial_description' to 'ebv_geospatial_description'
+-   ebv_create(\_taxonomy): add date_metadata_modified and date_modified
+-   added new metadata terms: publisher_url, creator_url
 
 ## Minor changes
-- ebv_download: add doi (now available in API)
-- ebv_properties: add time_coverage_start and time_coverage_end + date_metadata_modified and date_modified
-- add new test-data, update tests regarding updated metadata terms and JSONs
+
+-   ebv_download: add doi (now available in API)
+-   ebv_properties: add time_coverage_start and time_coverage_end + date_metadata_modified and date_modified
+-   add new test-data, update tests regarding updated metadata terms and JSONs
 
 ## Bug fixes
-- ebv_create_taxonomy: remove rhdf5-Na.OK attribute from entity_list
-- DelayedArray errors on ubuntu dev 
+
+-   ebv_create_taxonomy: remove rhdf5-Na.OK attribute from entity_list
+-   DelayedArray errors on ubuntu dev
 
 # ebvcube 0.3.3
 
 ## Bug fixes
-- update EBV Data Portal website URL
+
+-   update EBV Data Portal website URL
 
 # ebvcube 0.3.2
 
 ## Bug fixes
-- add read-only flag to test-file (test-ebv_utils.R)
+
+-   add read-only flag to test-file (test-ebv_utils.R)
 
 # ebvcube 0.3.1
 
 ## Bug fixes
-- correct old url in News.md
+
+-   correct old url in News.md
 
 # ebvcube 0.3.0
 
 ## Major changes
 
 -   new function: ebv_metadata
--   new helper functions: ebv_i\_vector_intersect, ebv_i\_contained, ebv_i\_check_iso_res, ebv_i\_check_iso_date
+-   new helper functions: ebv_i_vector_intersect, ebv_i_contained, ebv_i_check_iso_res, ebv_i_check_iso_date
 -   new Shiny App: ebv_taxonomy_app
--   add DOI to ebv_create(_taxonomy) and ebv_properties
--   GitHub repo transfer to https://github.com/EBVcube/ebvcube/
+-   add DOI to ebv_create(\_taxonomy) and ebv_properties
+-   GitHub repo transfer to <https://github.com/EBVcube/ebvcube/>
 
 ## Minor changes
 
-- ebv_add_data: add argument 'raw' to ignore scale and offset values
+-   ebv_add_data: add argument 'raw' to ignore scale and offset values
 
 ## Bug fixes
 
-- ebv_download: corrected ID-missmatch when giving ID by title
-- ebv_map: fix color scales, fix bug 'length of breaks and labels differ', add scenario to subtitle
-- ebv_properties: ensure that metric or datacube argument is given
-
+-   ebv_download: corrected ID-missmatch when giving ID by title
+-   ebv_map: fix color scales, fix bug 'length of breaks and labels differ', add scenario to subtitle
+-   ebv_properties: ensure that metric or datacube argument is given
 
 # ebvcube 0.2.3
 
 ## Bug fixes
 
 -   edit test file for ebv_download: make sure the portal website is up
--   new helper function: ebv_i\_check_url
+-   new helper function: ebv_i_check_url
 
 # ebvcube 0.2.1
 
@@ -69,7 +85,7 @@
 
 -   all (affected) functions: define timestep(s) also as an ISO formatted date
 -   add new arguments: define metric and scenario by name & index instead of the datacubepath
--   new function: ebv_create_taxonomy including new utils function ebv_i\_char_variable
+-   new function: ebv_create_taxonomy including new utils function ebv_i_char_variable
 -   add taxonomy-info the ebv_properties
 -   ebv_create(\_taxonomy): if one timestep but start and end date differ, apply end date
 
@@ -89,7 +105,7 @@
 
 ## Bug fixes
 
--   remove ebv_i\_file_opened from the functions
+-   remove ebv_i_file_opened from the functions
 -   ebv_read: read-access only
 
 # ebvcube 0.1.6
@@ -132,14 +148,14 @@
 ## Bug fixes
 
 -   ebv_create: contributor_name, content coverage type and domain corrected (comma + white space)
--   ebv_i\_file_opened: solve error on MAC OS (CRAN)
--   ebv_i\_eval_epsg: suppress warning by terra when assigning a crs (test error). [#23](https://github.com/EBVCube/ebvcube/issues/23) by Roger Bivand
+-   ebv_i_file_opened: solve error on MAC OS (CRAN)
+-   ebv_i_eval_epsg: suppress warning by terra when assigning a crs (test error). [#23](https://github.com/EBVCube/ebvcube/issues/23) by Roger Bivand
 
 # ebvcube 0.1.2
 
 ## Major changes
 
--   implement CRAN feedback (ebv_i\_file_opened (lsof to fuser), examples and test (writing to user library))
+-   implement CRAN feedback (ebv_i_file_opened (lsof to fuser), examples and test (writing to user library))
 
 ## Bug fixes
 

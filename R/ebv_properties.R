@@ -7,7 +7,7 @@
 #'   publisher_url, comment, keywords, id, history, licence, conventions,
 #'   naming_authority, date_created, date_issued, entity_names, entity_type,
 #'   entity_scope, entity_classification_name, entity_classification_url,
-#'   taxonomy, taxonomy_lsid, date_modified, date_metadata_modified
+#'   taxonomy, taxonomy_key, date_modified, date_metadata_modified
 #' @slot spatial Named list. Elements: wkt2, epsg, extent, resolution,
 #'   crs_units, dimensions, scope, description
 #' @slot temporal Named list. Elements: resolution, units, timesteps, dates,
@@ -25,7 +25,7 @@
 #'   netCDF based on an older standard, the properties will differ from the
 #'   definition above. If the dataset does not encompass taxonomic info, the
 #'   'taxonomy' is NA. Besides, even if a dataset encompasses the taxonomy
-#'   information, the 'taxonomy_lsid' can be NA.
+#'   information, the 'taxonomy_key' can be NA.
 methods::setClass(
   "EBV netCDF properties",
   slots = list(
@@ -160,13 +160,25 @@ ebv_properties <-
     ####initial tests end ----
 
     #get all taxonomy values----
-    if(rhdf5::H5Lexists(hdf, 'entity_list')){
+    if(rhdf5::H5Lexists(hdf, 'entity_list') || rhdf5::H5Lexists(hdf, 'taxonomy_table')){
       #get levels
+      if(rhdf5::H5Lexists(hdf, 'entity_levels')){
+        #old naming until version 0.4.0
       tax_levels <- suppressWarnings(rhdf5::h5read(hdf, 'entity_levels'))
+      }else{
+        #new naming since version 1.0.0
+        tax_levels <- suppressWarnings(rhdf5::h5read(hdf, 'taxonomy_levels'))
+      }
       tax_levels <- apply(tax_levels, 1, ebv_i_paste)
 
       #get values of all levels
-      tax_list <- suppressWarnings(rhdf5::h5read(hdf, 'entity_list'))
+      if(rhdf5::H5Lexists(hdf, 'entity_list')){
+        #old naming until version 0.4.0
+        tax_list <- suppressWarnings(rhdf5::h5read(hdf, 'entity_list'))
+      }else{
+        #new naming since version 1.0.0
+        tax_list <- suppressWarnings(rhdf5::h5read(hdf, 'taxonomy_table'))
+      }
       #create taxon table
       dims_list <- dim(tax_list)
       taxon_df <- data.frame(matrix(NA, nrow=dims_list[2], ncol=length(tax_levels)))
@@ -177,15 +189,18 @@ ebv_properties <-
 
       #check for lsid
       if(rhdf5::H5Lexists(hdf, 'entity_lsid')){
-        lsid_list <- suppressWarnings(rhdf5::h5read(hdf, 'entity_lsid'))
-        taxon_lsid <- apply(lsid_list, 1, ebv_i_paste)
-      } else{
-        taxon_lsid <- NA
+        taxon_key_list <- suppressWarnings(rhdf5::h5read(hdf, 'entity_lsid'))
+        taxon_keys <- apply(taxon_key_list, 1, ebv_i_paste)
+      } else if(rhdf5::H5Lexists(hdf, 'taxonomy_key')){
+        taxon_key_list <- suppressWarnings(rhdf5::h5read(hdf, 'taxonomy_key'))
+        taxon_keys <- apply(taxon_key_list, 1, ebv_i_paste)
+      }else{
+        taxon_keys <- NA
       }
 
     }else{
       taxon_df <- NA
-      taxon_lsid <- NA
+      taxon_keys <- NA
     }
 
     #get all entity names ----
@@ -356,7 +371,7 @@ ebv_properties <-
         'entity_classification_name' = ebv_entity_classification_name,
         'entity_classification_url' = ebv_entity_classification_url,
         'taxonomy' = taxon_df,
-        'taxonomy_lsid' = taxon_lsid
+        'taxonomy_key' = taxon_keys
       )
     spatial <-
       list(

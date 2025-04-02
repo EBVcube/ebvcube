@@ -8,7 +8,7 @@ ebv_create_taxonomy(
   jsonpath,
   outputpath,
   taxonomy,
-  lsid = FALSE,
+  taxonomy_key = FALSE,
   epsg = 4326,
   extent = c(-180, 180, -90, 90),
   resolution = c(1, 1),
@@ -31,17 +31,25 @@ the process.}
 \item{taxonomy}{Character. Path to the csv table holding the taxonomy.
 Default: comma-separated delimiter, else change the \code{sep} argument
 accordingly. The csv needs to have the following structure: The header
-displays the names of the different taxon levels ordered from the highest
-level to the lowest, e.g. "Order", "Family", "Genus", "Species". The last
-column (if \code{lsid}=FALSE) is equivalent to the \code{entity} argument in the
-\code{\link[=ebv_create]{ebv_create()}} function. Each row of the csv corresponds to a
-unique entity. In case the \code{lsid} argument (see below) is set to the TRUE,
-this table gets an additional last column which holds the lsid per entity -
-in this case the second last column contains the entity names, e.g. the
-following column order: "Order", "Family", "Genus", "Species", "lsid".}
+displays the names of the different taxonomy levels ordered from the highest
+level to the lowest, e.g. "order", "family", "genus", "scientificName". We
+strongly encourage the usage of the \href{https://dwc.tdwg.org/terms/#taxon}{Darwin
+Core terminology} for the taxonomy levels. The last column (if \code{taxonomy_key}=FALSE)
+is equivalent to the \code{entity} argument in the \code{\link[=ebv_create]{ebv_create()}}
+function. Each row of the csv corresponds to a unique entity. In case the
+\code{taxonomy_key} argument (see below) is set to TRUE, this table gets an
+additional last column which holds the taxonomy key per entity - in this
+case the second last column contains the entity names, e.g. the following
+column order: "order", "family", "genus", "scientificName", "taxonomy_key".
+The last column (here named "taxonomy_key") should have the exact name of
+the taxonomy key from the authority of the taxonomic backbone. It will be
+added as an additional
+attribute to the netCDF. For example, if your taxonomy is based on the \href{https://www.gbif.org/dataset/d7dddbf4-2cf0-4f39-9b2a-bb099caae36c}{GBIF
+Backbone Taxonomy} the column name could be "usageKey".}
 
-\item{lsid}{Logical. Default: FALSE. Set to TRUE if the last column in your
-taxonomy csv file defines the lsid for each entity. For more info check
+\item{taxonomy_key}{Logical. Default: FALSE. Set to TRUE if the last column in
+your taxonomy csv file defines the taxonomy_key for each entity. For more
+info check
 \href{https://cfconventions.org/Data/cf-conventions/cf-conventions-1.8/cf-conventions.html#taxon-names-and-identifiers}{CF
 convention 1.8: Taxon Names and Identifiers}.}
 
@@ -100,7 +108,7 @@ To check out the results take a look at your netCDF file with
 NASA.
 
 You can check the taxonomy info with \code{\link[=ebv_properties]{ebv_properties()}} in the
-slot 'general' under the name 'taxonomy' and 'taxonomy_lsid'.
+slot 'general' under the name 'taxonomy' and 'taxonomy_key'.
 }
 \examples{
 #set path to JSON file

@@ -1,4 +1,4 @@
-order,family,binomial,taxid
+order,family,scientificName,usageKey
 Chiroptera,Hipposideridae,Hipposideros curtus,10125
 Primates,Cheirogaleidae,Microcebus rufus,13324
 Rodentia,Echimyidae,Proechimys quadruplicatus,18296

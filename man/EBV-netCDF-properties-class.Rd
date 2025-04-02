@@ -20,7 +20,7 @@ contributor_name, publisher_name, publisher_institution, publisher_email,
 publisher_url, comment, keywords, id, history, licence, conventions,
 naming_authority, date_created, date_issued, entity_names, entity_type,
 entity_scope, entity_classification_name, entity_classification_url,
-taxonomy, taxonomy_lsid, date_modified, date_metadata_modified}
+taxonomy, taxonomy_key, date_modified, date_metadata_modified}
 
 \item{\code{spatial}}{Named list. Elements: wkt2, epsg, extent, resolution,
 crs_units, dimensions, scope, description}
@@ -42,5 +42,5 @@ indicated with an element called status in the list. \cr If you read an EBV
 netCDF based on an older standard, the properties will differ from the
 definition above. If the dataset does not encompass taxonomic info, the
 'taxonomy' is NA. Besides, even if a dataset encompasses the taxonomy
-information, the 'taxonomy_lsid' can be NA.
+information, the 'taxonomy_key' can be NA.
 }
