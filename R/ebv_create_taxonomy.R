@@ -718,16 +718,16 @@ ebv_create_taxonomy <- function(jsonpath, outputpath, taxonomy, taxonomy_key=FAL
                                           dim=list(dimchar_entity, entity_dim),
                                           prec='char', verbose = verbose)
   enum <- enum+1
-  #add taxonomy_table variable ----
-  var_list_nc[[enum]] <- ncdf4::ncvar_def(name = 'taxonomy_table', unit='1', #HERE adimensional
+  #add entity_taxonomy_table variable ----
+  var_list_nc[[enum]] <- ncdf4::ncvar_def(name = 'entity_taxonomy_table', unit='1', #HERE adimensional
                                           dim=list(taxon_dim, entity_dim, dimchar_entity),
                                           prec='char', verbose = verbose)
   enum <- enum+1
 
-  # add taxonomy_levels variable ----
+  # add entity_taxonomy_levels variable ----
   max_char_taxonlevel <- max(nchar(taxon_list))
   dimchar_taxonlevel <- ncdf4::ncdim_def("nchar_taxonlist", "", 1:max_char_taxonlevel, create_dimvar=FALSE)
-  var_list_nc[[enum]] <- ncdf4::ncvar_def(name = 'taxonomy_levels', unit='1', #HERE adimensional
+  var_list_nc[[enum]] <- ncdf4::ncvar_def(name = 'entity_taxonomy_levels', unit='1', #HERE adimensional
                                           dim=list(taxon_dim, dimchar_taxonlevel),
                                           prec='char', verbose = verbose)
   enum <- enum+1
@@ -736,7 +736,7 @@ ebv_create_taxonomy <- function(jsonpath, outputpath, taxonomy, taxonomy_key=FAL
   if(taxonomy_key){
     max_char_taxonomy_key <- max(nchar(taxonomy_key_list))
     dimchar_taxonomy_key <- ncdf4::ncdim_def("nchar_taxonid", "", 1:max_char_taxonomy_key, create_dimvar=FALSE)
-    var_list_nc[[enum]] <- ncdf4::ncvar_def(name = 'taxonomy_key', unit='1', #HERE adimensional
+    var_list_nc[[enum]] <- ncdf4::ncvar_def(name = 'entity_taxonomy_key', unit='1', #HERE adimensional
                                             dim=list(entity_dim, dimchar_taxonomy_key),
                                             prec='char', verbose = verbose)
   }
@@ -1125,7 +1125,7 @@ ebv_create_taxonomy <- function(jsonpath, outputpath, taxonomy, taxonomy_key=FAL
   # close file 1 ----
   rhdf5::H5Fclose(hdf)
 
-  # add values to 'taxonomy_table' var ----
+  # add values to 'entity_taxonomy_table' var ----
   level_i <- length(taxon_list)
 
   for(level in taxon_list){
@@ -1137,37 +1137,37 @@ ebv_create_taxonomy <- function(jsonpath, outputpath, taxonomy, taxonomy_key=FAL
     }
 
     rhdf5::h5write(data_level_clean, file=outputpath,
-                   name="taxonomy_table", index=list(level_i, NULL, NULL))
+                   name="entity_taxonomy_table", index=list(level_i, NULL, NULL))
 
     level_i <- level_i-1
   }
 
 
 
-  # add values to 'taxonomy_levels' var ----
+  # add values to 'entity_taxonomy_levels' var ----
   level_d <- ebv_i_char_variable(taxon_list, max_char_taxonlevel, TRUE)
   rhdf5::h5write(level_d, file=outputpath,
-                 name="taxonomy_levels")
+                 name="entity_taxonomy_levels")
 
 
-  # add values to 'taxonomy_key' var ----
+  # add values to 'entity_taxonomy_key' var ----
   if(taxonomy_key){
     ls_id_d <- ebv_i_char_variable(taxonomy_key_list, max_char_taxonomy_key)
     rhdf5::h5write(ls_id_d, file=outputpath,
-                   name="taxonomy_key")
+                   name="entity_taxonomy_key")
   }
 
   #delete automatically created attribute: :rhdf5-NA.OK ----
   hdf <- rhdf5::H5Fopen(outputpath)
   #taxonomy_levels
-  ent_level_did <- rhdf5::H5Dopen(hdf, 'taxonomy_levels')
+  ent_level_did <- rhdf5::H5Dopen(hdf, 'entity_taxonomy_levels')
   if(rhdf5::H5Aexists(ent_level_did, 'rhdf5-NA.OK')){
     rhdf5::H5Adelete(ent_level_did, 'rhdf5-NA.OK')
   }
   rhdf5::H5Dclose(ent_level_did)
-  #taxonomy_key
+  #entity_taxonomy_key
   if(taxonomy_key){
-    taxonomy_key_did <- rhdf5::H5Dopen(hdf, 'taxonomy_key')
+    taxonomy_key_did <- rhdf5::H5Dopen(hdf, 'entity_taxonomy_key')
     if(rhdf5::H5Aexists(taxonomy_key_did, 'rhdf5-NA.OK')){
       rhdf5::H5Adelete(taxonomy_key_did, 'rhdf5-NA.OK')
     }
@@ -1176,8 +1176,8 @@ ebv_create_taxonomy <- function(jsonpath, outputpath, taxonomy, taxonomy_key=FAL
     #close Datahandle
     rhdf5::H5Dclose(taxonomy_key_did)
   }
-  #taxonomy_table
-  ent_list_did <- rhdf5::H5Dopen(hdf, 'taxonomy_table')
+  #entity_taxonomy_table
+  ent_list_did <- rhdf5::H5Dopen(hdf, 'entity_taxonomy_table')
   if(rhdf5::H5Aexists(ent_list_did, 'rhdf5-NA.OK')){
     rhdf5::H5Adelete(ent_list_did, 'rhdf5-NA.OK')
   }

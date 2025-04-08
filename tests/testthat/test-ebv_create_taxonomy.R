@@ -34,17 +34,17 @@ test_that("test ebv_create_taxonomy no lsid", {
   hdf <- rhdf5::H5Fopen(file)
 
   #taxonomy_table
-  taxonomy_table.id <- rhdf5::H5Dopen(hdf, 'taxonomy_table')
+  taxonomy_table.id <- rhdf5::H5Dopen(hdf, 'entity_taxonomy_table')
   expect_equal(trimws(paste0(taxonomy_table.id[1,1,], collapse = '')), "Hipposideros curtus")
   expect_equal(trimws(paste0(taxonomy_table.id[2,1,], collapse = '')), "Hipposideridae")
   expect_equal(trimws(paste0(taxonomy_table.id[3,1,], collapse = '')), "Chiroptera")
   rhdf5::H5Dclose(taxonomy_table.id)
 
   #no lsid created
-  expect_equal(rhdf5::H5Lexists(hdf, 'taxonomy_key'), FALSE)
+  expect_equal(rhdf5::H5Lexists(hdf, 'entity_taxonomy_key'), FALSE)
 
   #taxon level names
-  taxonomy_levels.id <- rhdf5::H5Dopen(hdf, 'taxonomy_levels')
+  taxonomy_levels.id <- rhdf5::H5Dopen(hdf, 'entity_taxonomy_levels')
   expect_equal(trimws(paste0(taxonomy_levels.id[1,], collapse = '')), "binomial")
   expect_equal(trimws(paste0(taxonomy_levels.id[2,], collapse = '')), "family")
   expect_equal(trimws(paste0(taxonomy_levels.id[3,], collapse = '')), "order")
@@ -104,22 +104,22 @@ test_that("test ebv_create_taxonomy with lsid", {
   hdf <- rhdf5::H5Fopen(file)
 
   #taxonomy_table
-  taxonomy_table.id <- rhdf5::H5Dopen(hdf, 'taxonomy_table')
+  taxonomy_table.id <- rhdf5::H5Dopen(hdf, 'entity_taxonomy_table')
   expect_equal(trimws(paste0(taxonomy_table.id[1,2,], collapse = '')), "Microcebus rufus")
   expect_equal(trimws(paste0(taxonomy_table.id[2,2,], collapse = '')), "Cheirogaleidae")
   expect_equal(trimws(paste0(taxonomy_table.id[3,2,], collapse = '')), "Primates")
   rhdf5::H5Dclose(taxonomy_table.id)
 
   #check taxonomy_key created
-  expect_equal(rhdf5::H5Lexists(hdf, 'taxonomy_key'), TRUE)
-  taxonomy_key.id <- rhdf5::H5Dopen(hdf, 'taxonomy_key')
+  expect_equal(rhdf5::H5Lexists(hdf, 'entity_taxonomy_key'), TRUE)
+  taxonomy_key.id <- rhdf5::H5Dopen(hdf, 'entity_taxonomy_key')
   expect_equal(trimws(paste0(taxonomy_key.id[1,], collapse = '')), "10125")
   expect_equal(rhdf5::H5Aexists(taxonomy_key.id, 'rhdf5-NA.OK'), FALSE)
   expect_equal(ebv_i_read_att(taxonomy_key.id, 'long_name'), 'usageKey')
   rhdf5::H5Dclose(taxonomy_key.id)
 
   #taxon level names
-  taxonomy_levels.id <- rhdf5::H5Dopen(hdf, 'taxonomy_levels')
+  taxonomy_levels.id <- rhdf5::H5Dopen(hdf, 'entity_taxonomy_levels')
   expect_equal(trimws(paste0(taxonomy_levels.id[1,], collapse = '')), "scientificName")
   expect_equal(trimws(paste0(taxonomy_levels.id[2,], collapse = '')), "family")
   expect_equal(trimws(paste0(taxonomy_levels.id[3,], collapse = '')), "order")
@@ -127,7 +127,7 @@ test_that("test ebv_create_taxonomy with lsid", {
   rhdf5::H5Dclose(taxonomy_levels.id)
 
   #test ebv_i_p
-  did_list <- rhdf5::H5Dopen(hdf, 'taxonomy_table')
+  did_list <- rhdf5::H5Dopen(hdf, 'entity_taxonomy_table')
   did_list_data <- rhdf5::H5Dread(did_list)
   rhdf5::H5Dclose(did_list)
   values <- c("Hipposideridae", "Cheirogaleidae", "Echimyidae", "Procyonidae", "Rhinolophidae", "Phyllostomidae",

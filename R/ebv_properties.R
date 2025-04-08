@@ -160,14 +160,14 @@ ebv_properties <-
     ####initial tests end ----
 
     #get all taxonomy values----
-    if(rhdf5::H5Lexists(hdf, 'entity_list') || rhdf5::H5Lexists(hdf, 'taxonomy_table')){
+    if(rhdf5::H5Lexists(hdf, 'entity_list') || rhdf5::H5Lexists(hdf, 'entity_taxonomy_table')){
       #get levels
       if(rhdf5::H5Lexists(hdf, 'entity_levels')){
         #old naming until version 0.4.0
       tax_levels <- suppressWarnings(rhdf5::h5read(hdf, 'entity_levels'))
       }else{
-        #new naming since version 1.0.0
-        tax_levels <- suppressWarnings(rhdf5::h5read(hdf, 'taxonomy_levels'))
+        #new naming since version 0.5.0
+        tax_levels <- suppressWarnings(rhdf5::h5read(hdf, 'entity_taxonomy_levels'))
       }
       tax_levels <- apply(tax_levels, 1, ebv_i_paste)
 
@@ -176,8 +176,8 @@ ebv_properties <-
         #old naming until version 0.4.0
         tax_list <- suppressWarnings(rhdf5::h5read(hdf, 'entity_list'))
       }else{
-        #new naming since version 1.0.0
-        tax_list <- suppressWarnings(rhdf5::h5read(hdf, 'taxonomy_table'))
+        #new naming since version 0.5.0
+        tax_list <- suppressWarnings(rhdf5::h5read(hdf, 'entity_taxonomy_table'))
       }
       #create taxon table
       dims_list <- dim(tax_list)
@@ -191,8 +191,8 @@ ebv_properties <-
       if(rhdf5::H5Lexists(hdf, 'entity_lsid')){
         taxon_key_list <- suppressWarnings(rhdf5::h5read(hdf, 'entity_lsid'))
         taxon_keys <- apply(taxon_key_list, 1, ebv_i_paste)
-      } else if(rhdf5::H5Lexists(hdf, 'taxonomy_key')){
-        taxon_key_list <- suppressWarnings(rhdf5::h5read(hdf, 'taxonomy_key'))
+      } else if(rhdf5::H5Lexists(hdf, 'entity_taxonomy_key')){
+        taxon_key_list <- suppressWarnings(rhdf5::h5read(hdf, 'entity_taxonomy_key'))
         taxon_keys <- apply(taxon_key_list, 1, ebv_i_paste)
       }else{
         taxon_keys <- NA

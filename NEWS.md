@@ -3,11 +3,11 @@
 ## Major changes
 
 -   ebv_create_taxonomy:
-    -   renamed entity_list and entity_levels to taxonomy_list and taxonomy_levels (ebv_properties still reads the old naming for now)
-    -   remove lsid and replace by taxonomy_key, add attribute to variable which refers to the name of the taxonomy_key of the authority of the taxonomic backbone (long_name)
+    -   renamed entity_list and entity_levels to entity_taxonomy_table and entity_taxonomy_levels (ebv_properties still reads the old naming for now)
+    -   remove lsid and replace by taxonomy_key, add attribute to variable which refers to the name of the entity_taxonomy_key of the authority of the taxonomic backbone (long_name)
 -   ebv_properties:
-    -   read either from entity_list and entity_levels or taxonomy_list and taxonomy_levels
-    -   read both: lsid and taxonomy_key
+    -   read either from entity_list and entity_levels or entity_taxonomy_table and entity_taxonomy_levels
+    -   read both: lsid and entity_taxonomy_key
 
 # ebvcube 0.4.0
 
