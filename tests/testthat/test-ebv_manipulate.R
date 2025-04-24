@@ -141,9 +141,9 @@ test_that("test ebv_create, ebv_add_data and ebv_attribute", {
   RandomNum <- as.integer(runif(64800, 1, 99))
   array <- array(RandomNum, dims)
   ebv_add_data(filepath = file, datacubepath = 'scenario_1/metric_1/ebv_cube',
-               entity=1,timestep=1,
+               entity=1,timestep=1, ignore_RAM = TRUE,
                data=array, verbose=FALSE)
-  data <- ebv_read(file, 'scenario_1/metric_1/ebv_cube',1,1, 'a', verbose=FALSE)
+  data <- ebv_read(file, 'scenario_1/metric_1/ebv_cube',1,1, 'a', verbose=FALSE, ignore_RAM = TRUE)
   expect_equal(data[90,180,1], array[90,180])
   #write tif to add data directly from tif
   RandomNum <- as.integer(runif(194400, 1, 99))
@@ -155,7 +155,7 @@ test_that("test ebv_create, ebv_add_data and ebv_attribute", {
   ebv_add_data(filepath = file, datacubepath = 'scenario_3/metric_2/ebv_cube',
                entity=1,timestep=1:3, band = 1:3,
                data=temprast, verbose=FALSE, ignore_RAM = TRUE)
-  data <- ebv_read(file, 'scenario_3/metric_2/ebv_cube',1,1:3, 'a', verbose=FALSE)
+  data <- ebv_read(file, 'scenario_3/metric_2/ebv_cube',1,1:3, 'a', verbose=FALSE, ignore_RAM = TRUE)
   expect_equal(data[90,180,3], array[90,180,3])
   expect_equal(data[90,80,2], array[90,80,2])
   expect_equal(data[9,180,1], array[9,180,1])

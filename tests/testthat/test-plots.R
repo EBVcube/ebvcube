@@ -66,7 +66,7 @@ test_that("test ebv_trend metric", {
 # basic tests for ebv_map ----
 test_that("test ebv_map 1", {
   file <- system.file(file.path("extdata","martins_comcom_subset.nc"), package="ebvcube")
-  ebv_map(file, 'metric_1/ebv_cube', 1, 3, classes=5, verbose=F)
+  ebv_map(file, 'metric_1/ebv_cube', 1, 3, classes=5, verbose=F, ignore_RAM = TRUE)
   p <- ggplot2::last_plot()
   expect_true(ggplot2::is.ggplot(p))
   expect_error(print(p), NA)
@@ -81,7 +81,7 @@ test_that("test ebv_map: col_rev", {
   file <- system.file(file.path("extdata","martins_comcom_subset.nc"), package="ebvcube")
   ebv_map(filepath = file, entity = 'all bird species', timestep = "1950-01-01",
           metric = 'Relative change in the number of species (%)',
-          classes = 7, verbose = F, col_rev = T)
+          classes = 7, verbose = F, col_rev = T, ignore_RAM = TRUE)
   p <- ggplot2::last_plot()
   expect_true(ggplot2::is.ggplot(p))
   expect_error(print(p), NA)
@@ -94,7 +94,7 @@ test_that("test ebv_map: col_rev", {
 
 test_that("test ebv_map: no countries, one class only", {
   file <- system.file(file.path("extdata","martins_comcom_subset.nc"), package="ebvcube")
-  ebv_map(file, 'metric_1/ebv_cube', 1, 2, classes=1, verbose=F, countries = F)
+  ebv_map(file, 'metric_1/ebv_cube', 1, 2, classes=1, verbose=F, countries = F, ignore_RAM = TRUE)
   p <- ggplot2::last_plot()
   expect_true(ggplot2::is.ggplot(p))
   expect_error(print(p), NA)
