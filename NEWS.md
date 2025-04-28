@@ -9,6 +9,11 @@
     -   read either from entity_list and entity_levels or entity_taxonomy_table and entity_taxonomy_levels
     -   read both: lsid and entity_taxonomy_key
 
+## Bug fixes
+
+-   set ignore_RAM to TRUE for the tests
+
+
 # ebvcube 0.4.0
 
 ## Major changes
