@@ -884,6 +884,7 @@ ebv_i_datacubepath <- function(scenario=NULL, metric, datacubepaths, verbose){
 #' @return Returns a character array
 #' @noRd
 ebv_i_char_variable <- function(string_vector, max_char, reverse=FALSE){
+  string_vector[is.na(string_vector)] <- ''
   data_level <- as.data.frame(stringr::str_split(stringr::str_pad(string_vector, max_char, side = c("right")), ''))
   data_level <- t(data_level)
   if(reverse){

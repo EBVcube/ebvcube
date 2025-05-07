@@ -711,7 +711,7 @@ ebv_create_taxonomy <- function(jsonpath, outputpath, taxonomy, taxonomy_key=FAL
   }
 
   #add entities variable ----
-  max_char_entity <- max(apply(csv_txt, 2, function(x) max(nchar(x))))
+  max_char_entity <- max(apply(csv_txt, 2, function(x) max(nchar(x))), na.rm=TRUE)
   dimchar_entity <- ncdf4::ncdim_def("nchar", "", 1:max_char_entity, create_dimvar=FALSE)
   #entity
   var_list_nc[[enum]] <- ncdf4::ncvar_def(name = 'entity', unit='1', #HERE adimensional
