@@ -7,6 +7,7 @@
 ## Bug fixes
 -   ebv_create_taxonomy: remove bug in max_char_entity (remove NA)
 -   ebv_i_utils: remove NA from the char-vectors (taxonomy)
+-   ebv_i_datacubepath: error if scenario or metric are NA
 
 # ebvcube 0.5.0
 

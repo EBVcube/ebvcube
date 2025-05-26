@@ -230,6 +230,24 @@ test_that("test ebv_i_datacubepath no string values error", {
 
 })
 
+test_that("test ebv_i_datacubepath metric and scenario are NA", {
+  datacubepaths <- data.frame(c('scenario_1/metric_1/ebv_cube', 'scenario_1/metric_2/ebv_cube',
+                                'scenario_1/metric_3/ebv_cube',
+                                'scenario_2/metric_1/ebv_cube', 'scenario_2/metric_2/ebv_cube',
+                                'scenario_2/metric_3/ebv_cube',
+                                'scenario_3/metric_1/ebv_cube', 'scenario_3/metric_2/ebv_cube',
+                                'scenario_3/metric_3/ebv_cube'))
+  datacubepaths <- cbind(datacubepaths, c('SSP1-RCP1.5 LU','SSP1-RCP1.5 LU','SSP1-RCP1.5 LU',
+                                          'SSP3-RCP6.0 LU','SSP3-RCP6.0 LU','SSP3-RCP6.0 LU',
+                                          'SSP5-RCP8.5 LU', 'SSP5-RCP8.5 LU', 'SSP5-RCP8.5 LU'))
+  datacubepaths <- cbind(datacubepaths, c('Species richness (S)','Relative species richness change (Delta_S)',
+                                          'Diversity-weighted relative species richness change (Delta_SS)'))
+  colnames(datacubepaths) <- c('datacubepaths', 'scenario_names', 'metric_names')
+
+  expect_error(ebv_i_datacubepath(NA, NA, datacubepaths, FALSE)) # The scenario argument cannot be NA. It must either be of type character, a simple integer or  NULL (if the dataset has no scenario).
+  expect_error(ebv_i_datacubepath(1, NA, datacubepaths, FALSE), 'The metric argument must be of type character.')
+
+})
 
 #test ebv_i_get_dates function for shiny----
 test_that("test ebv_i_get_dates ", {
