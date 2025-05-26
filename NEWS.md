@@ -1,5 +1,9 @@
 # ebvcube 0.5.1
 
+## Minor changes
+
+-   ebv_create(_taxonomy): allocate space in cubes during creation, not in in ebv_add_data
+
 ## Bug fixes
 -   ebv_create_taxonomy: remove bug in max_char_entity (remove NA)
 -   ebv_i_utils: remove NA from the char-vectors (taxonomy)
