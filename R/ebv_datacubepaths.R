@@ -68,8 +68,9 @@ ebv_datacubepaths <- function(filepath, verbose = TRUE){
   #get all datasets ----
   remove <- c('crs', 'dim_entity', 'lat', 'lon', 'crs', 'time', 'var_entity',
               'entities', 'entity', 'nchar', 'nchar_entity', 'entity_levels',
-              'entity_list', 'nchar_taxonlist', 'taxonlevel', 'nchar_lsid',
-              'entity_lsid')
+              'entity_taxonomy_table', 'nchar_taxonlist', 'entity_taxonomy_levels',
+              'nchar_lsid', 'taxonlevel', 'entity_lsid', 'entity_list', 'nchar_taxonid',
+              'entity_taxonomy_key')
   for (r in remove){
     dump[[r]] <- NULL
   }
