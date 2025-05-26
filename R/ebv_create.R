@@ -1092,7 +1092,6 @@ ebv_create <- function(jsonpath, outputpath, entities, epsg = 4326,
   #set dim of all ebvcubes ----
   #get all cube paths
   paths <- ebv_datacubepaths(outputpath)$datacubepaths
-  dims <- ' '
   #open again
   hdf <- rhdf5::H5Fopen(outputpath)
   for(path in paths){

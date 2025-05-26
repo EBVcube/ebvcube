@@ -1189,7 +1189,6 @@ ebv_create_taxonomy <- function(jsonpath, outputpath, taxonomy, taxonomy_key=FAL
   #set dim of all ebvcubes ----
   #get all cube paths
   paths <- ebv_datacubepaths(outputpath)$datacubepaths
-  dims <- ' '
   #open again
   hdf <- rhdf5::H5Fopen(outputpath)
   for(path in paths){
