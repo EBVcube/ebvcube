@@ -4,9 +4,9 @@
 #'   First, create a new EBV netCDF using [ebvcube::ebv_create()].
 #'
 #' @param filepath_nc Character. Path to the self-created netCDF file.
-#' @param data Character or matrix or array. If character: Path to the GeoTiff
-#'   file containing the data. Ending needs to be *.tif. If matrix or array:
-#'   in-memory object holding the data.
+#' @param data Character or matrix or array or SpatRaster (terra). If character:
+#'   Path to the GeoTiff file containing the data. Ending needs to be *.tif. If
+#'   matrix or array or SpatRaster: in-memory object holding the data.
 #' @param datacubepath Character. Optional. Default: NULL. Path to the datacube
 #'   (use [ebvcube::ebv_datacubepaths()]). Alternatively, you can use the
 #'   scenario and metric argument to define which cube you want to access.
@@ -127,6 +127,7 @@ ebv_add_data <- function(filepath_nc, datacubepath = NULL, entity = NULL, timest
   character <- FALSE
   matrix <- FALSE
   array <- FALSE
+  spatRaster <- FALSE
   if(checkmate::test_character(data) && !any(class(data) == 'matrix')){
     character <- TRUE
     #check if tif file exists
@@ -144,8 +145,10 @@ ebv_add_data <- function(filepath_nc, datacubepath = NULL, entity = NULL, timest
     }
   } else if('matrix' %in% class(data)){
     matrix <- TRUE
-  } else{
-    stop('Your data argument is not of type character, array or matrix.')
+  } else if ("SpatRaster" %in% class(data)){
+    spatRaster <- TRUE
+  }else{
+    stop('Your data argument is not of type character, array, matrix or SpatRaster.')
   }
 
   #file closed?
@@ -320,21 +323,6 @@ ebv_add_data <- function(filepath_nc, datacubepath = NULL, entity = NULL, timest
 
   #open file
   hdf <- rhdf5::H5Fopen(filepath_nc)
-
-  #set dim of dataset ----
-  did <- rhdf5::H5Dopen(hdf, datacubepath)
-  fillvalue <- ebv_i_read_att(did, '_FillValue', FALSE)
-  file_space <- rhdf5::H5Dget_space(did)
-  if (rhdf5::H5Sget_simple_extent_dims(file_space)$size[3] != dims[3]){
-    #set new dimension of dataset
-    rhdf5::H5Dset_extent(did, c(dims[2], dims[1], dims[3:length(dims)]))
-    rhdf5::H5Dclose(did)
-    rhdf5::H5Sclose(file_space)
-  }else{
-    rhdf5::H5Dclose(did)
-    rhdf5::H5Sclose(file_space)
-  }
-
 
   #assure the FillValue
   if(any(is.na(data))){

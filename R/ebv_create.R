@@ -1089,4 +1089,22 @@ ebv_create <- function(jsonpath, outputpath, entities, epsg = 4326,
   # close file  ----
   rhdf5::H5Fclose(hdf)
 
+  #set dim of all ebvcubes ----
+  #get all cube paths
+  paths <- ebv_datacubepaths(outputpath)$datacubepaths
+  dims <- ' '
+  #open again
+  hdf <- rhdf5::H5Fopen(outputpath)
+  for(path in paths){
+    did <- rhdf5::H5Dopen(hdf, path)
+    #set new dimension of dataset
+    rhdf5::H5Dset_extent(did, c(length(lon_data), length(lat_data), length(timesteps), entities_no))
+    rhdf5::H5Dclose(did)
+  }
+
+  # close file  ----
+  rhdf5::H5Fclose(hdf)
+
+
+
 }

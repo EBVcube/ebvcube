@@ -38,9 +38,9 @@ have to be in a continuous and in order. Meaning c(4,5,6) is right but
 c(2,5,6) is wrong. Alternatively you can provide a date or list of dates in
 ISO format, such as '2015-01-01' (also in order).}
 
-\item{data}{Character or matrix or array. If character: Path to the GeoTiff
-file containing the data. Ending needs to be *.tif. If matrix or array:
-in-memory object holding the data.}
+\item{data}{Character or matrix or array or SpatRaster (terra). If character:
+Path to the GeoTiff file containing the data. Ending needs to be *.tif. If
+matrix or array or SpatRaster: in-memory object holding the data.}
 
 \item{band}{Integer. Default: 1. Define which band(s) to read from GeoTiff.
 Can be several. Don't have to be in order as the timesteps definition
