@@ -192,6 +192,7 @@ ebv_add_data <- function(filepath_nc, datacubepath = NULL, entity = NULL, timest
   prop <- ebv_properties(filepath_nc, datacubepath, verbose=FALSE)
   dims <- prop@spatial$dimensions
   entity_names <- prop@general$entity_names
+  fillvalue <- prop@ebv_cube$fillvalue
 
   #check file structure
   is_4D <- ebv_i_4D(filepath_nc)
