@@ -735,7 +735,7 @@ ebv_i_datacubepath <- function(scenario=NULL, metric, datacubepaths, verbose){
     }
   }
 
-  if(!(checkmate::checkCharacter(scenario)==TRUE || is.null(scenario) || checkmate::checkIntegerish(scenario, len=1) == TRUE) ){
+  if(!(checkmate::checkCharacter(scenario)==TRUE || is.null(scenario) || checkmate::checkIntegerish(scenario, len=1) == TRUE)){
     #check if scenario matches any of the allowed types
     stop('The scenario argument must either be of type character, a simple integer or  NULL (if the dataset has no scenario).')
 
@@ -800,7 +800,7 @@ ebv_i_datacubepath <- function(scenario=NULL, metric, datacubepaths, verbose){
   }
 
   #check metric definition----
-  if(!(checkmate::checkCharacter(metric)==TRUE || checkmate::checkIntegerish(metric, len=1) == TRUE ) || is.na(metric)){
+  if(!(checkmate::checkCharacter(metric)==TRUE || checkmate::checkIntegerish(metric, len=1) == TRUE) || is.na(metric)){
     stop('The metric argument must be of type character.')
 
   } else if(checkmate::checkIntegerish(metric, len=1) == TRUE){

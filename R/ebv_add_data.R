@@ -84,11 +84,6 @@ ebv_add_data <- function(filepath_nc, datacubepath = NULL, entity = NULL, timest
     }
   )
   withr::defer(
-    if(exists('file_space')){
-      if(rhdf5::H5Iis_valid(file_space)==TRUE){rhdf5::H5Sclose(file_space)}
-    }
-  )
-  withr::defer(
     if(exists('did')){
       if(rhdf5::H5Iis_valid(did)==TRUE){rhdf5::H5Dclose(did)}
     }
