@@ -1,7 +1,7 @@
 # basic tests for ebv_read* ----
 test_that("test ebv_read single timestep", {
   file <- system.file(file.path("extdata","martins_comcom_subset.nc"), package="ebvcube")
-  data <- ebv_read(file, 'metric_1/ebv_cube', 1, 1, verbose = FALSE, ignore_RAM = TRUE)
+  data <- ebv_read(file, 'metric_1/ebv_cube', entity = 1, timestep = 1, verbose = FALSE, ignore_RAM = TRUE)
   value <- as.numeric(data[40,45])
   expect_equal(value, -0.003191974)
 })
