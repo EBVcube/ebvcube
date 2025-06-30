@@ -1,7 +1,7 @@
 Package: ebvcube
 Title: Working with netCDF for Essential Biodiversity Variables
-Version: 0.5.1
-Date: 2025-06-18
+Version: 0.5.2
+Date: 2025-06-30
 Authors@R: 
     c(person(given = "Luise",
            family = "Quoss",

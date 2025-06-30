@@ -793,14 +793,14 @@ ebv_create_taxonomy <- function(jsonpath, outputpath, taxonomy, taxonomy_key=FAL
     global.att['comment'] <- 'comment'
     global.att['ebv_class']<-'ebv$ebv_class'
     global.att['ebv_name']<-'ebv$ebv_name'
-    global.att['ebv_spatial_scope']<-'ebv_geospatial$ebv_geospatial_scope'
-    global.att['ebv_spatial_description']<-'ebv_geospatial$ebv_geospatial_description'
+    global.att['ebv_geospatial_scope']<-'ebv_geospatial$ebv_geospatial_scope'
+    global.att['ebv_geospatial_description']<-'ebv_geospatial$ebv_geospatial_description'
     global.att['ebv_domain']<-'ebv_domain'
   }
 
   #keywords
   keywords <- paste0('ebv_class: ', json$ebv$ebv_class, ', ebv_name: ', json$ebv$ebv_name,
-                     ', ebv_domain: ', paste0(json$ebv_domain[[1]], collapse=', '), ', ebv_spatial_scope: ',
+                     ', ebv_domain: ', paste0(json$ebv_domain[[1]], collapse=', '), ', ebv_geospatial_scope: ',
                      json$ebv_geospatial$ebv_geospatial_scope, ', ebv_entity_type: ',
                      json$ebv_entity$ebv_entity_type)
 
