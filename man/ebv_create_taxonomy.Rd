@@ -47,11 +47,12 @@ added as an additional attribute to the netCDF. For example, if your
 taxonomy is based on the \href{https://www.gbif.org/dataset/d7dddbf4-2cf0-4f39-9b2a-bb099caae36c}{GBIF
 Backbone Taxonomy} the column name could be "usageKey". For an
 example CSV including the \code{taxonomy_key} download the 'Entities as CSV'
-from the \href{Occurrence Metrics for the Birds Directive Annex I Species
-in EU27 dataset}{https://portal.geobon.org/ebv-detail?id=82} of the portal.
-For an example without \code{taxonomy_key}, download \href{Species habitat
+from the \href{https://portal.geobon.org/ebv-detail?id=82}{Occurrence
+Metrics for the Birds Directive Annex I Species in EU27 dataset} of the
+portal. For an example without \code{taxonomy_key}, download
+\href{https://portal.geobon.org/ebv-detail?id=84}{Species habitat
 suitability of European terrestrial vertebrates for contemporary climate
-and land use }{https://portal.geobon.org/ebv-detail?id=84}.
+and land use}.
 To create your netCDF follow the same structure. The column names may be
 different depending on the taxonomy used.}
 
