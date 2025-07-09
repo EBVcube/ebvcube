@@ -101,7 +101,7 @@ The properties encompass much more information!
 
 ``` r
 library(ebvcube)
-#> ebvcube 0.5.1
+#> ebvcube 0.5.2
 
 #set the path to the file
 file <- system.file(file.path("extdata", "martins_comcom_subset.nc"), package="ebvcube")
@@ -347,7 +347,7 @@ citation('ebvcube')
 #>   Quoss L, Fernandez N, Langer C, Valdez J, Pereira H (2024). _ebvcube:
 #>   Working with netCDF for Essential Biodiversity Variables_. German
 #>   Centre for Integrative Biodiversity Research (iDiv)
-#>   Halle-Jena-Leipzig, Germany. R package version 0.5.1,
+#>   Halle-Jena-Leipzig, Germany. R package version 0.5.2,
 #>   <https://github.com/EBVcube/ebvcube>.
 #> 
 #> A BibTeX entry for LaTeX users is
@@ -356,7 +356,7 @@ citation('ebvcube')
 #>     title = {ebvcube: Working with netCDF for Essential Biodiversity Variables},
 #>     author = {Luise Quoss and Nestor Fernandez and Christian Langer and Jose Valdez and Henrique Miguel Pereira},
 #>     year = {2024},
-#>     note = {R package version 0.5.1},
+#>     note = {R package version 0.5.2},
 #>     organization = {German Centre for Integrative Biodiversity Research (iDiv) Halle-Jena-Leipzig},
 #>     address = {Germany},
 #>     url = {https://github.com/EBVcube/ebvcube},
@@ -374,6 +374,7 @@ citation('ebvcube')
 |  | ebv_read_bb | Read a spatial subset given by a bounding box |
 |  | ebv_read_shp | Read a spatial subset given by a Shapefile |
 |  | ebv_analyse | Get basic measurements of the data |
+|  | ebv_resample | Resample the pixel size and alignment |
 |  | ebv_write | Write manipulated data back to disc |
 | Data visualization | ebv_map | Plot a map of the specified data slice |
 |  | ebv_trend | Plot the temporal trend |

@@ -250,6 +250,7 @@ citation('ebvcube')
 ||ebv_read_bb|Read a spatial subset given by a bounding box|
 ||ebv_read_shp|Read a spatial subset given by a Shapefile|
 ||ebv_analyse|Get basic measurements of the data|
+||ebv_resample|Resample the pixel size and alignment|
 ||ebv_write|Write manipulated data back to disc|
 |Data visualization|ebv_map|Plot a map of the specified data slice|
 ||ebv_trend|Plot the temporal trend |
