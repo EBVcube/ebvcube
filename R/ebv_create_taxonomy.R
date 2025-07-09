@@ -30,11 +30,12 @@
 #'  taxonomy is based on the \href{https://www.gbif.org/dataset/d7dddbf4-2cf0-4f39-9b2a-bb099caae36c}{GBIF
 #'  Backbone Taxonomy} the column name could be "usageKey". For an
 #'  example CSV including the `taxonomy_key` download the 'Entities as CSV'
-#'  from the \href{Occurrence Metrics for the Birds Directive Annex I Species
-#'  in EU27 dataset}{https://portal.geobon.org/ebv-detail?id=82} of the portal.
-#'  For an example without `taxonomy_key`, download \href{Species habitat
+#'  from the \href{https://portal.geobon.org/ebv-detail?id=82}{Occurrence
+#'  Metrics for the Birds Directive Annex I Species in EU27 dataset} of the
+#'  portal. For an example without `taxonomy_key`, download
+#'  \href{https://portal.geobon.org/ebv-detail?id=84}{Species habitat
 #'  suitability of European terrestrial vertebrates for contemporary climate
-#'  and land use }{https://portal.geobon.org/ebv-detail?id=84}.
+#'  and land use}.
 #'  To create your netCDF follow the same structure. The column names may be
 #'  different depending on the taxonomy used.
 #'@param taxonomy_key Logical. Default: FALSE. Set to TRUE if the last column in
@@ -237,7 +238,7 @@ ebv_create_taxonomy <- function(jsonpath, outputpath, taxonomy, taxonomy_key=FAL
       #read csv---
       # check if data inside
       tryCatch({
-        csv_txt <- suppressWarnings(utils::read.csv(taxonomy, sep=sep, header=TRUE, fileEncoding="UTF-8"))
+        csv_txt <- suppressWarnings(utils::read.csv(taxonomy, sep=sep, header=TRUE, fileEncoding="UTF-8", row.names = NULL))
       },
       error=function(e){
         if(stringr::str_detect(as.character(e), 'no lines available')){
@@ -317,6 +318,11 @@ ebv_create_taxonomy <- function(jsonpath, outputpath, taxonomy, taxonomy_key=FAL
     taxon_list <- names(csv_txt)
     entities <- csv_txt[, dim_csv[2]]
     taxonomy_key_list <- NA
+  }
+
+  #double-check entities----
+  if(any(is.na(entities))){
+    stop('There is at least one entity-name NA. Please check again that the last (taxonomy_key=FALSE) or the second-last (taxonomy_key=TRUE) column of your CSV holds the entity-names and has no NA value.')
   }
 
   #check taxonomy_key list and entities
