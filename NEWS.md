@@ -3,6 +3,7 @@
 ## Bug fixes
 
 -   ebv_create_taxonomy: change 'ebv_spatial\_\*' to 'ebv_geospatial\_\*'
+-   ebv_create_taxonomy: update help page regarding taxonomy-key
 
 # ebvcube 0.5.1
 

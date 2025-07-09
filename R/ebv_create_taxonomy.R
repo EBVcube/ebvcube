@@ -26,14 +26,19 @@
 #'  column order: "order", "family", "genus", "scientificName", "taxonomy_key".
 #'  The last column (here named "taxonomy_key") should have the exact name of
 #'  the taxonomy key from the authority of the taxonomic backbone. It will be
-#'  added as an additional
-#'  attribute to the netCDF. For example, if your taxonomy is based on the \href{https://www.gbif.org/dataset/d7dddbf4-2cf0-4f39-9b2a-bb099caae36c}{GBIF
-#'  Backbone Taxonomy} the column name could be "usageKey".
+#'  added as an additional attribute to the netCDF. For example, if your
+#'  taxonomy is based on the \href{https://www.gbif.org/dataset/d7dddbf4-2cf0-4f39-9b2a-bb099caae36c}{GBIF
+#'  Backbone Taxonomy} the column name could be "usageKey". For an
+#'  example CSV including the `taxonomy_key` download the 'Entities as CSV'
+#'  from the \href{Occurrence Metrics for the Birds Directive Annex I Species
+#'  in EU27 dataset}{https://portal.geobon.org/ebv-detail?id=82} of the portal.
+#'  For an example without `taxonomy_key`, download \href{Species habitat
+#'  suitability of European terrestrial vertebrates for contemporary climate
+#'  and land use }{https://portal.geobon.org/ebv-detail?id=84}.
+#'  To create your netCDF follow the same structure. The column names may be
+#'  different depending on the taxonomy used.
 #'@param taxonomy_key Logical. Default: FALSE. Set to TRUE if the last column in
-#'  your taxonomy csv file defines the taxonomy_key for each entity. For more
-#'  info check
-#'   \href{https://cfconventions.org/Data/cf-conventions/cf-conventions-1.8/cf-conventions.html#taxon-names-and-identifiers}{CF
-#'   convention 1.8: Taxon Names and Identifiers}.
+#'  your taxonomy csv file defines the taxonomy_key for each entity.
 #'@param epsg Integer. Default: 4326 (WGS84). Defines the coordinate reference
 #'  system via the corresponding epsg code.
 #'@param extent Numeric. Default: c(-180,180,-90,90). Defines the extent of the
