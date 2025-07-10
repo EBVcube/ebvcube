@@ -6,11 +6,16 @@
 <!-- badges: start -->
 
 [![CRAN
-status](https://www.r-pkg.org/badges/version/ebvcube)](https://CRAN.R-project.org/package=ebvcube)
+status](https://www.r-pkg.org/badges/version/ebvcube)](https://cran.r-project.org/package=ebvcube)
 [![R-CMD-check](https://github.com/EBVCube/ebvcube/actions/workflows/R.yaml/badge.svg?branch=dev)](https://github.com/EBVCube/ebvcube/actions/workflows/R.yaml)
+[![ebvcube status
+badge](https://b-cubed-eu.r-universe.dev/ebvcube/badges/version)](https://b-cubed-eu.r-universe.dev/ebvcube)
+[![name status
+badge](https://b-cubed-eu.r-universe.dev/badges/:name?color=6CDDB4)](https://b-cubed-eu.r-universe.dev/)
 [![codecov](https://codecov.io/gh/EBVcube/ebvcube/graph/badge.svg?token=2TVFHRKBNJ)](https://app.codecov.io/gh/EBVcube/ebvcube)
-![Static
-Badge](https://img.shields.io/badge/DOI-10.32614%2FCRAN.package.ebvcube-blue?link=https%3A%2F%2Fcran.r-project.org%2Fweb%2Fpackages%2Febvcube%2Findex.html)
+[![Static
+Badge](https://img.shields.io/badge/DOI-10.32614%2FCRAN.package.ebvcube-blue?link=https%3A%2F%2Fcran.r-project.org%2Fweb%2Fpackages%2Febvcube%2Findex.html)](https://cran.r-project.org/package=ebvcube)
+
 <!-- badges: end -->
 
 This package can be used to easily access the data of the EBV netCDFs
@@ -69,16 +74,19 @@ datacubes are 4D.
 
 ## 2. Installation
 
-You can install the ebvcube packages with:
+You can install the ebvcube packages from the following sources:
 
 ``` r
-#get the current version on CRAN
+#installation of the current version on CRAN
 install.packages('ebvcube') 
 
-#install the latest version from GitHub
+#installation of the latest development version from GitHub
 devtools::install_github('https://github.com/EBVCube/ebvcube/tree/dev')
 
-#troubleshooting for BioConductor packages
+#installation of the current version on the b3verse (https://b-cubed-eu.r-universe.dev/)
+install.packages("ebvcube", repos = c("https://b-cubed-eu.r-universe.dev", "https://cloud.r-project.org", "https://bioc.r-universe.dev"))
+
+#troubleshooting in case the BioConductor packages are missing
 #if one of the following packages is not loaded: rhdf5, DelayedArray, HDF5Array
 install.packages("BiocManager")
 BiocManager::install('rhdf5')
@@ -243,6 +251,7 @@ ggplot2::ggplot() +
 ```
 
 <img src="man/figures/README-unnamed-chunk-8-1.png" width="100%" />
+
 Imagine you have a very large dataset but only limited memory. The
 package provides the possibility to load the data as a DelayedArray. The
 ebv_write() function helps you to write that data back on disk properly.
