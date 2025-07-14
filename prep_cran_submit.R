@@ -1,5 +1,5 @@
 #BEFORE SUBMITTING TO CRAN
-setwd(dirname(rstudioapi::getSourceEditorContext()$path))
+setwd(dirname(rstudioapi::getSourceEditorContext()$path)) #not necessary in the Rproject
 
 #1. update date AND version number in DESCRIPTION file
 #2. update News.md
@@ -13,7 +13,7 @@ urlchecker::url_check()
 devtools::document()
 devtools::build_manual(path='C:\\Users\\lq39quba\\Desktop\\package\\ebvcube\\inst\\docs')
 devtools::build_readme()
-#7. update Rbuildignore -> new manual version
+#7. update Rbuildignore + gitignore file -> ignore everything except the new manual version
 #8. Again, run tests and examples + check
 devtools::test()
 devtools::run_examples()
@@ -86,9 +86,9 @@ devtools::check()
 # Verify you're ready for release, and release
 # devtools::release()
 
-# shiny app
-shiny,
-shinyFiles,
-shinyWidgets,
-bslib,
-remove stuff from Rbuildignore
+# # shiny app
+# shiny,
+# shinyFiles,
+# shinyWidgets,
+# bslib,
+# remove stuff from Rbuildignore
