@@ -34,10 +34,10 @@ Authors@R:
            comment = c(ORCID = "0000-0003-1043-1675"))
            )
 Author: Emmanuel Oceguera Conchas [aut, cre] (<https://orcid.org/0009-0008-0107-9298>),
-Luise Quoss [aut] (<https://orcid.org/0000-0002-9910-1252>),
+  Luise Quoss [aut] (<https://orcid.org/0000-0002-9910-1252>),
 	Nestor Fernandez [aut] (<https://orcid.org/0000-0002-9645-8571>),
-    Christian Langer [aut] (<https://orcid.org/0000-0003-1446-3527>),
-    Jose Valdez [aut] (<https://orcid.org/0000-0003-2690-9952>),
+  Christian Langer [aut] (<https://orcid.org/0000-0003-1446-3527>),
+  Jose Valdez [aut] (<https://orcid.org/0000-0003-2690-9952>),
 	Henrique Miguel Pereira [aut] (<https://orcid.org/0000-0003-1043-1675>)
 Maintainer: Emmanuel Oceguera Conchas <e.oceguera@idiv.de>
 Description: The concept of Essential Biodiversity Variables (EBV, <https://geobon.org/ebvs/what-are-ebvs/>) 
