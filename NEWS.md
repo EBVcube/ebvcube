@@ -8,6 +8,7 @@
 ## Minor changes
 
 -   ebv_create_taxonomy: update help page regarding taxonomy-key
+-   changed package maintainer
 
 # ebvcube 0.5.1
 

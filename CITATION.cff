@@ -8,7 +8,7 @@ message: 'To cite package "ebvcube" in publications use:'
 type: software
 license: GPL-3.0-or-later
 title: 'ebvcube: Working with netCDF for Essential Biodiversity Variables'
-version: 0.5.1
+version: 0.5.2
 identifiers:
 - type: doi
   value: 10.32614/CRAN.package.ebvcube
@@ -18,9 +18,12 @@ abstract: 'The concept of Essential Biodiversity Variables (EBV, <https://geobon
   this data. The EBV netCDFs can be downloaded from the EBV Data Portal: Christian
   Langer/ iDiv (2020) <https://portal.geobon.org/>.'
 authors:
+- family-names: Oceguera Conchas
+  given-names: Emmanuel
+  email: e.oceguera@idiv.de
+  orcid: https://orcid.org/0009-0008-0107-9298
 - family-names: Quoss
   given-names: Luise
-  email: luise.quoss@idiv.de
   orcid: https://orcid.org/0000-0002-9910-1252
 - family-names: Fernandez
   given-names: Nestor
@@ -44,7 +47,6 @@ preferred-citation:
   authors:
   - family-names: Quoss
     given-names: Luise
-    email: luise.quoss@idiv.de
     orcid: https://orcid.org/0000-0002-9910-1252
   - family-names: Fernandez
     given-names: Nestor
@@ -63,7 +65,7 @@ preferred-citation:
     email: henrique.pereira@idiv.de
     orcid: https://orcid.org/0000-0003-1043-1675
   year: '2024'
-  notes: R package version 0.5.1
+  notes: R package version 0.5.2
   institution:
     name: German Centre for Integrative Biodiversity Research (iDiv) Halle-Jena-Leipzig
     address: Germany
@@ -71,12 +73,12 @@ preferred-citation:
 repository: https://CRAN.R-project.org/package=ebvcube
 repository-code: https://github.com/EBVcube/ebvcube
 url: https://github.com/EBVCube/ebvcube
-date-released: '2025-06-18'
+date-released: '2025-06-30'
 contact:
-- family-names: Quoss
-  given-names: Luise
-  email: luise.quoss@idiv.de
-  orcid: https://orcid.org/0000-0002-9910-1252
+- family-names: Oceguera Conchas
+  given-names: Emmanuel
+  email: e.oceguera@idiv.de
+  orcid: https://orcid.org/0009-0008-0107-9298
 keywords:
 - biodiversity-standards
 - essential-biodiversity-variables

@@ -6,12 +6,12 @@ setwd(dirname(rstudioapi::getSourceEditorContext()$path)) #not necessary in the 
 #3. update the CITATION.cff
 cffr::cff_write(dependencies=FALSE)
 #4. run lintr
-lintr::lint_dir()
+lintr::lint_dir() #we took out return_linter = NULL
 #5. check all URLs
 urlchecker::url_check()
 #6. document + manual + readme
 devtools::document()
-devtools::build_manual(path='C:\\Users\\lq39quba\\Desktop\\package\\ebvcube\\inst\\docs')
+devtools::build_manual(path='I:\\biocon\\ebv_portal\\package\\ebvcube\\inst\\docs')
 devtools::build_readme()
 #7. update Rbuildignore + gitignore file -> ignore everything except the new manual version
 #8. Again, run tests and examples + check
