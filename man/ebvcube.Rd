@@ -26,10 +26,11 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Luise Quoss \email{luise.quoss@idiv.de} (\href{https://orcid.org/0000-0002-9910-1252}{ORCID})
+\strong{Maintainer}: Emmanuel Oceguera Conchas \email{e.oceguera@idiv.de} (\href{https://orcid.org/0009-0008-0107-9298}{ORCID})
 
 Authors:
 \itemize{
+  \item Luise Quoss (\href{https://orcid.org/0000-0002-9910-1252}{ORCID})
   \item Nestor Fernandez \email{nestor.fernandez@idiv.de} (\href{https://orcid.org/0000-0002-9645-8571}{ORCID})
   \item Christian Langer \email{christian.langer@idiv.de} (\href{https://orcid.org/0000-0003-1446-3527}{ORCID})
   \item Jose Valdez \email{jose.valdez@idiv.de} (\href{https://orcid.org/0000-0003-2690-9952}{ORCID})
