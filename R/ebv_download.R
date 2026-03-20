@@ -27,13 +27,13 @@
 #'
 #' @examples
 #'
-#' \donttest{
-#' #' #get all available datasets
+#' \dontrun{
+#' # get all available datasets
 #' datasets <- ebv_download()
 #'
 #' ebv_download(id = datasets$id[1], outputdir =
-#' tempdir(), overwrite=TRUE,
-#' verbose=FALSE)
+#'   tempdir(), overwrite = TRUE,
+#'   verbose = FALSE)
 #' }
 ebv_download <- function(id=NULL,
                          outputdir,
