@@ -89,6 +89,7 @@ install.packages("ebvcube", repos = c("https://b-cubed-eu.r-universe.dev", "http
 #troubleshooting in case the BioConductor packages are missing
 #if one of the following packages is not loaded: rhdf5, DelayedArray, HDF5Array
 install.packages("BiocManager")
+BiocManager::install(version = "3.22")
 BiocManager::install('rhdf5')
 BiocManager::install('DelayedArray')
 BiocManager::install('HDF5Array')
