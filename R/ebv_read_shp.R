@@ -40,7 +40,7 @@
 #'   it to FALSE.
 #'
 #' @return Returns a SpatRaster object if no output path is given. Otherwise the
-#'   subset is written onto the disk and the ouput path is returned.
+#'   subset is written onto the disk and the output path is returned.
 #' @export
 #' @seealso [ebvcube::ebv_read_bb()] for subsetting via bounding box.
 #'

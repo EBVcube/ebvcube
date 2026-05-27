@@ -1,3 +1,16 @@
+# ebvcube 0.5.3
+
+## Bug fixes
+
+-   ebv_download / ebv_i_check_url: fix undefined variable used as timeout
+    in external URL connection checks
+-   ebvcube-package: complete truncated sentence in package-level documentation
+
+## Minor changes
+
+-   ebv_download: wrap external portal calls (dataset list, metadata,
+    DOI redirect, file downloads) in tryCatch for informative error messages
+
 # ebvcube 0.5.2
 
 ## Bug fixes

@@ -69,7 +69,7 @@ it to FALSE.}
 }
 \value{
 Returns a SpatRaster object if no output path is given. Otherwise the
-subset is written onto the disk and the ouput path is returned.
+subset is written onto the disk and the output path is returned.
 }
 \description{
 Read a subset of one or more layers from one datacube of the

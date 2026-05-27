@@ -9,7 +9,7 @@
 #' This package contains three main usecases: accessing the data, visualising it
 #' and creating your own data in the EBVCube netCDF format. See the
 #' \href{https://github.com/EBVcube/EBVCube-format/}{EBVCube format repository}
-#' for a detailed description of the
+#' for a detailed description of the EBVCube netCDF format specification.
 #'
 #'
 #' @name ebvcube

@@ -12,7 +12,7 @@
 #'   file. Possible values: INT1S, INT2S, INT2U, INT4S, INT4U, FLT4S, FLT8S.
 #' @param outputpath Character. Set the path where you want to write the data to
 #'   disk as a GeoTiff. Ending needs to be *.tif.
-#' @param overwrite Locigal. Default: FALSE. Set to TRUE to overwrite the
+#' @param overwrite Logical. Default: FALSE. Set to TRUE to overwrite the
 #'   outputfile defined by 'outputpath'.
 #' @param verbose Logical. Default: TRUE. Turn off additional prints by setting
 #'   it to FALSE.
