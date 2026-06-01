@@ -5,6 +5,7 @@
 .DS_Store
 data-raw/
 cran-comments.md
+CRAN-SUBMISSION
 tests/testdata/
 to-dos.md
 .claude/
