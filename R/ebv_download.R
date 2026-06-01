@@ -64,7 +64,16 @@ ebv_download <- function(id=NULL,
   #end initial tests----
 
   #retrieve data set list
-  datasets <- jsonlite::fromJSON('https://portal.geobon.org/api/v1/datasets')
+  datasets <- tryCatch(
+    {
+      jsonlite::fromJSON('https://portal.geobon.org/api/v1/datasets')
+    },
+    error = function(e) {
+      stop(paste0('Could not retrieve dataset list from the EBV Data Portal. ',
+                  'The portal may be temporarily unavailable.\n', e$message))
+    }
+  )
+
   no_datasets <- dim(datasets$data)[1]
 
   datasets_list <- datasets$data$id
@@ -108,7 +117,7 @@ ebv_download <- function(id=NULL,
 
         #check if this website is available
         con_doi <- url(url_id)
-        check_doi <- suppressWarnings(try(open.connection(con_doi, open="rt", timeout=t), silent=TRUE)[1])
+        check_doi <- suppressWarnings(try(open.connection(con_doi, open="rt", timeout=10), silent=TRUE)[1])
         suppressWarnings(try(close.connection(con_doi), silent=TRUE))
         website_doi <- ifelse(is.null(check_doi), TRUE, FALSE)
 
@@ -117,7 +126,15 @@ ebv_download <- function(id=NULL,
         }
 
         #get the url of the redirection from the DOI url
-        a <- httr::HEAD(url_id)
+        a <- tryCatch(
+          {
+            httr::HEAD(url_id)
+          },
+          error = function(e) {
+            stop(paste0('Could not resolve the DOI redirect for ', url_id,
+                        '. The DOI service may be temporarily unavailable.\n', e$message))
+          }
+        )
         path_portal <- (a$all_headers[[1]])$headers$location
         #check if redirect to portal website
         if(!grepl('portal.geobon.org/ebv-detail?id=', path_portal, fixed=TRUE)){
@@ -156,7 +173,16 @@ ebv_download <- function(id=NULL,
     root <- 'https://portal.geobon.org/api/v1/datasets/'
     json_path <- paste0(root, id)
 
-    metadata <- jsonlite::fromJSON(json_path)
+    metadata <- tryCatch(
+      {
+        jsonlite::fromJSON(json_path)
+      },
+      error = function(e) {
+        stop(paste0('Could not retrieve metadata for dataset ID ', id,
+                    ' from the EBV Data Portal. ',
+                    'The portal may be temporarily unavailable.\n', e$message))
+      }
+    )
 
     #get netcdf path and name
     nc_path <- metadata$data$dataset$download
@@ -176,17 +202,33 @@ ebv_download <- function(id=NULL,
       print('Downloading file... Please wait.')
       }
 
-    curl::curl_download(nc_url,
-                        destfile = file.path(outputdir, name_nc),
-                        quiet = !verbose)
+    tryCatch(
+      {
+        curl::curl_download(nc_url,
+                            destfile = file.path(outputdir, name_nc),
+                            quiet = !verbose)
+      },
+      error = function(e) {
+        stop(paste0('Could not download the netCDF file from ', nc_url,
+                    '. The portal may be temporarily unavailable or the file may have moved.\n',
+                    e$message))
+      }
+    )
 
     #download json
     name_js <- paste0(stringr::str_remove(name_nc, '.nc'), '_metadata.json')
 
-    curl::curl_download(json_path,
-                        destfile = file.path(outputdir, name_js),
-                        quiet = !verbose)
-
+    tryCatch(
+      {
+        curl::curl_download(json_path,
+                            destfile = file.path(outputdir, name_js),
+                            quiet = !verbose)
+      },
+      error = function(e) {
+        stop(paste0('Could not download the metadata JSON file from ', json_path,
+                    '. The portal may be temporarily unavailable.\n', e$message))
+      }
+    )
 
   }
 

@@ -30,7 +30,7 @@ The EBV netCDF structure is designed to hold Essential Biodiversity
 Variables. This concept is further described
 [here](https://geobon.org/ebvs/what-are-ebvs/). The files are based on
 the [Network Common Data
-Format](https://www.unidata.ucar.edu/software/netcdf/) (netCDF).
+Format](https://www.unidata.ucar.edu/software/netcdf) (netCDF).
 Additionally, it follows the [Climate and Forecast
 Conventions](https://cfconventions.org/Data/cf-conventions/cf-conventions-1.8/cf-conventions.html)
 (CF, version 1.8) and the [Attribute Convention for Data
@@ -110,7 +110,7 @@ The properties encompass much more information!
 
 ``` r
 library(ebvcube)
-#> ebvcube 0.5.2
+#> ebvcube 0.5.3
 
 #set the path to the file
 file <- system.file(file.path("extdata", "martins_comcom_subset.nc"), package="ebvcube")
@@ -357,7 +357,7 @@ citation('ebvcube')
 #>   Quoss L, Fernandez N, Langer C, Valdez J, Pereira H (2024). _ebvcube:
 #>   Working with netCDF for Essential Biodiversity Variables_. German
 #>   Centre for Integrative Biodiversity Research (iDiv)
-#>   Halle-Jena-Leipzig, Germany. R package version 0.5.2,
+#>   Halle-Jena-Leipzig, Germany. R package version 0.5.3,
 #>   <https://github.com/EBVcube/ebvcube>.
 #> 
 #> A BibTeX entry for LaTeX users is
@@ -366,7 +366,7 @@ citation('ebvcube')
 #>     title = {ebvcube: Working with netCDF for Essential Biodiversity Variables},
 #>     author = {Luise Quoss and Nestor Fernandez and Christian Langer and Jose Valdez and Henrique Miguel Pereira},
 #>     year = {2024},
-#>     note = {R package version 0.5.2},
+#>     note = {R package version 0.5.3},
 #>     organization = {German Centre for Integrative Biodiversity Research (iDiv) Halle-Jena-Leipzig},
 #>     address = {Germany},
 #>     url = {https://github.com/EBVcube/ebvcube},

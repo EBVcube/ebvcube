@@ -104,7 +104,7 @@
 #' @param verbose Logical. Default: TRUE. Turn off additional prints and
 #'   warnings by setting it to FALSE.
 #'
-#' @note \strong{Metadata Conventions:} The metadata termns of the EBV netCDFs
+#' @note \strong{Metadata Conventions:} The metadata terms of the EBV netCDFs
 #'   are based on
 #'   \href{https://cfconventions.org/Data/cf-conventions/cf-conventions-1.8/cf-conventions.html}{CF
 #'    1.8} and

@@ -196,7 +196,7 @@ See EBV Classes and their corresponding EBV Names:\tabular{ll}{
 }
 }
 \note{
-\strong{Metadata Conventions:} The metadata termns of the EBV netCDFs
+\strong{Metadata Conventions:} The metadata terms of the EBV netCDFs
 are based on
 \href{https://cfconventions.org/Data/cf-conventions/cf-conventions-1.8/cf-conventions.html}{CF
 1.8} and

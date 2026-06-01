@@ -30,7 +30,7 @@ data: c(xmin, xmax, ymin, ymax).}
 \item{type}{Character. Default is FLT8S Indicate the datatype of the GeoTiff
 file. Possible values: INT1S, INT2S, INT2U, INT4S, INT4U, FLT4S, FLT8S.}
 
-\item{overwrite}{Locigal. Default: FALSE. Set to TRUE to overwrite the
+\item{overwrite}{Logical. Default: FALSE. Set to TRUE to overwrite the
 outputfile defined by 'outputpath'.}
 
 \item{verbose}{Logical. Default: TRUE. Turn off additional prints by setting

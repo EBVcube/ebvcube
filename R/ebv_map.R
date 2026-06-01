@@ -34,7 +34,7 @@
 #' @param all_data Logical. Default: FALSE. The quantiles are based on the one
 #'   timestep you chose (default). If you want include the full data of the
 #'   datacube to produce several maps that are based on the same color scale,
-#'   set this argument to TRUE (to allow for viusual comparison between entities
+#'   set this argument to TRUE (to allow for visual comparison between entities
 #'   or timesteps. Does not cover different datacubes.)
 #' @param ignore_RAM Logical. Default: FALSE. Checks if there is enough space in
 #'   your memory to read the data. Can be switched off (set to TRUE).

@@ -4,8 +4,11 @@
 .httr-oauth
 .DS_Store
 data-raw/
+cran-comments.md
+CRAN-SUBMISSION
 tests/testdata/
 to-dos.md
+.claude/
 ^renv$
 ^renv\.lock$
 ^inst/docs/ebvcube_0.0.1.pdf
@@ -26,3 +29,5 @@ to-dos.md
 ^inst/docs/ebvcube_0.4.0.pdf
 ^inst/docs/ebvcube_0.5.0.pdf
 ^inst/docs/ebvcube_0.5.1.pdf
+^inst/docs/ebvcube_0.5.2.pdf
+
