@@ -1,3 +1,10 @@
+# ebvcube(development version)
+
+
+## Minor changes
+
+-   ebv_read: allow selection of multiple entities by name or integer value (index)
+
 # ebvcube 0.5.3
 
 ## Bug fixes

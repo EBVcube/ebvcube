@@ -25,9 +25,8 @@ ebv_read(
 scenario and metric argument to define which cube you want to access.}
 
 \item{entity}{Character or Integer. Default is NULL. If the structure is 3D,
-the entity argument is set to NULL. Else, a character string or single
-integer value must indicate the entity of the 4D structure of the EBV
-netCDFs.}
+the entity argument is set to NULL. Else, specify one or more entities
+of the 4D structure of the EBV netCDFs by name or integer value.}
 
 \item{timestep}{Integer or character. Select one or several timestep(s).
 Either provide an integer value or list of values that refer(s) to the
@@ -62,7 +61,11 @@ it to FALSE.}
 }
 \value{
 Array, SpatRaster or DelayedArray object containing the data of the
-corresponding datacube and timestep(s).
+corresponding datacube and timestep(s). With multiple entities,
+the result includes every combination of entity and timestep.
+A SpatRaster has one layer per combination, grouped by entity and
+named by entity and date. Arrays and delayed arrays have
+dimensions \verb{[row, column, time, entity]}, even with one timestep.
 }
 \description{
 Read one or more layers from one datacube of the netCDF file.

@@ -10,9 +10,8 @@
 #'   (use [ebvcube::ebv_datacubepaths()]). Alternatively, you can use the
 #'   scenario and metric argument to define which cube you want to access.
 #' @param entity Character or Integer. Default is NULL. If the structure is 3D,
-#'   the entity argument is set to NULL. Else, a character string or single
-#'   integer value must indicate the entity of the 4D structure of the EBV
-#'   netCDFs.
+#'   the entity argument is set to NULL. Else, specify one or more entities
+#'   of the 4D structure of the EBV netCDFs by name or integer value.
 #' @param timestep Integer or character. Select one or several timestep(s).
 #'   Either provide an integer value or list of values that refer(s) to the
 #'   index of the timestep(s) (minimum value: 1) or provide a date or list of
@@ -45,7 +44,11 @@
 #'
 #'
 #' @return Array, SpatRaster or DelayedArray object containing the data of the
-#'   corresponding datacube and timestep(s).
+#'   corresponding datacube and timestep(s). With multiple entities,
+#'   the result includes every combination of entity and timestep.
+#'   A SpatRaster has one layer per combination, grouped by entity and
+#'   named by entity and date. Arrays and delayed arrays have
+#'   dimensions `[row, column, time, entity]`, even with one timestep.
 #' @export
 #'
 #' @examples
@@ -64,7 +67,7 @@
 #'                         type='r', metric = 1)
 #' #read data as Array
 #' cSAR.array <- ebv_read(filepath = file, datacubepath = datacubes[1,1],
-#'                               entity = 1, timestep = 1, type='r')
+#'                               entity = 1, timestep = 1, type='a')
 #' }
 ebv_read <- function(filepath, datacubepath = NULL,  entity=NULL, timestep=1,
                      type='r', scenario = NULL, metric = NULL,
@@ -147,26 +150,53 @@ ebv_read <- function(filepath, datacubepath = NULL,  entity=NULL, timestep=1,
 
   #check file structure
   is_4D <- ebv_i_4D(filepath)
+  # for a 3D cube, count one slice per timestep in the read loop and RAM check.
+  # only 4D reads use an entity index to select data from the file.
+  entity_index <-  1L
   if(is_4D){
     if(is.null(entity)){
-      stop('Your working with a 4D cube based EBV netCDF. Please specify the entity-argument.')
+      stop('You are working with a 4D cube based EBV netCDF. Please specify at least one entity.')
     }
     #check entity
     entity_names <- prop@general$entity_names
-    ebv_i_entity(entity, entity_names)
+    # ebv_i_entity(entity, entity_names)
 
-    #get entity index
-    if(checkmate::checkIntegerish(entity, len=1) == TRUE){
-      entity_index <- entity
-    } else if (checkmate::checkCharacter(entity)==TRUE){
-      entity_index <- which(entity_names==entity)
-    } else{
-      entity <- 1 #set entity to 1 (for ebv_i_check_ram)
+    if(is.character(entity) && length(entity) > 0L && !anyNA(entity)){
+      # look up one file index per requested name, in the requested order.
+      # an unknown name produces NA and is rejected below
+      entity_index <- match(entity, entity_names)
+      if(anyNA(entity_index)){
+        stop("Unknown entity name. Check ebv_properties() for available entities.")
+      }
+    } else if(checkmate::checkIntegerish(
+      entity, lower = 1, upper = length(entity_names),
+      min.len = 1, any.missing = FALSE
+      ) == TRUE){
+      entity_index <- as.integer(entity)
+    } else {
+      stop("Provide entity names or integer indices within the available entity range.")
     }
   }
 
   #timestep check -> in case of ISO, get index
   timestep <- ebv_i_date(timestep, prop@temporal$dates)
+  n_time <- length(timestep)
+  if (n_time == 0L){
+    stop("Select at least one timestep")
+  }
+  n_entity <-  length(entity_index)
+  multi_entity <- n_entity > 1L
+
+  if(multi_entity){
+    # look up labels and dates using the same indices as the data reads
+    # arrays use them as dimension names, and rasters use them as layer metadata.
+    entity_labels <- entity_names[entity_index]
+    selected_dates <- prop@temporal$dates[timestep]
+    slice_dimnames <- list(
+      row = NULL, column = NULL,
+      time = as.character(selected_dates), entity = entity_labels
+    )
+  }
 
   #######initial test end ----
 
@@ -181,11 +211,28 @@ ebv_read <- function(filepath, datacubepath = NULL,  entity=NULL, timestep=1,
     type.short <- ebv_i_type_r(type.long)
 
     #read as H5Array
-    all <- HDF5Array::HDF5Array(filepath = filepath, name =datacubepath, as.sparse = sparse, type = type.short)
+    all <- HDF5Array::HDF5Array(
+      filepath = filepath,
+      name =datacubepath,
+      as.sparse = sparse,
+      type = type.short
+      )
 
     #rotate data
-    if(is_4D){
-      # 4D structure
+    if (multi_entity) {
+      #keep all four dimensions, even when only one timestep is selected
+      selected <- all[, , timestep, entity_index, drop = FALSE]
+      #the file stores colums before rows. Swap the spatial axes to return
+      #[row, column, time, entity]. The permutation remains delayed.
+      h5array <- DelayedArray::aperm(selected, c(2L, 1L, 3L, 4L))
+      #convert the files's missing-value marker to NA when one is defined
+      if (!is.na(fillvalue[1])) {
+        h5array <- replace(h5array, h5array == fillvalue[1], NA)
+      }
+      dimnames(h5array) <- slice_dimnames
+    } else if (is_4D) {
+
+      #4D structure
       if (length(timestep)>1){
         #select entity cube
         entity_part <- all[, , timestep, entity_index]
@@ -203,7 +250,7 @@ ebv_read <- function(filepath, datacubepath = NULL,  entity=NULL, timestep=1,
         h5array <- replace(h5array, h5array==fillvalue[1], NA)
       }
     } else{
-      # 3D strucuture
+      #3D strucuture
       if (length(timestep)>1){
         #rotate matrix
         h5array <- DelayedArray::aperm(DelayedArray::aperm(all, 3:1), c(2, 3, 1))
@@ -217,15 +264,13 @@ ebv_read <- function(filepath, datacubepath = NULL,  entity=NULL, timestep=1,
         #replace NA value
         h5array <- replace(h5array, h5array==fillvalue[1], NA)
       }
-
     }
-
-    # return any in-memory object ----
+    #return any in-memory object ----
   } else if (type=='a' || type=='r') {
     #check needed RAM
     if (!ignore_RAM){
       type.long <- prop@ebv_cube$type
-      ebv_i_check_ram(prop@spatial$dimensions, timestep, entity, type.long)
+      ebv_i_check_ram(prop@spatial$dimensions, timestep, entity_index, type.long)
     } else{
       if(verbose){
         print('RAM capacities are ignored.')
@@ -233,24 +278,38 @@ ebv_read <- function(filepath, datacubepath = NULL,  entity=NULL, timestep=1,
     }
 
     #return in memory array ----
-    h5array <- array(dim=c(prop@spatial$dimensions[1], prop@spatial$dimensions[2], length(timestep)))
-    for (i in 1:length(timestep)){
-      if(is_4D){
-        part <- rhdf5::h5read(filepath, datacubepath, start=c(1, 1, timestep[i], entity_index),
-                              count=c(prop@spatial$dimensions[2], prop@spatial$dimensions[1], 1, 1))
-      }else{
-        part <- rhdf5::h5read(filepath, datacubepath, start=c(1, 1, timestep[i]),
-                              count=c(prop@spatial$dimensions[2], prop@spatial$dimensions[1], 1))
+    #allocate one spatial layer per entity and timestep combination.
+    spatial_dims <- prop@spatial$dimensions[1:2]
+    h5array <- array(dim = c(spatial_dims, n_time * n_entity))
 
+    #read all selected timesteps for one entity before moving to the next
+    for (entity_pos in seq_along(entity_index)) {
+      for (time_pos in seq_along(timestep)) {
+        #read the full spatial grid at one timestep. the file uses
+        #column, row, time order, with an entity axis only for 4D cubes
+        start <- c(1L, 1L, timestep[time_pos])
+        count <- c(rev(spatial_dims), 1L)
+        if (is_4D) {
+          start <- c(start, entity_index[entity_pos])
+          count <- c(count, 1L)
+        }
+        part <- rhdf5::h5read(filepath, datacubepath, start = start, count = count)
+        #put rows first and conver the file's missing value marker to NA.
+        mat <- t(matrix(part, nrow = spatial_dims[2], ncol = spatial_dims[1]))
+        mat[match(mat, fillvalue, nomatch = 0L) == 1L] <- NA
+
+        #file indices select what to read. Positions in the request decide where
+        #to store it. With two timesteps, entity_pos = 2 starts at layer 3.
+        layer <- (entity_pos - 1L) * n_time + time_pos
+        h5array[, , layer] <- mat
       }
+    }
 
-      #rotate matrix
-      mat <- matrix(part, c(prop@spatial$dimensions[2], prop@spatial$dimensions[1]))
-      mat <- t(mat[, , drop=FALSE])
-      mat <- replace(mat, which(base::match(mat, fillvalue)==1), c(NA))
-      #fill array
-      h5array[, , i] <- mat
-
+    # raster output uses the layer axis directly. For array output, split that axis
+    # into time and entity. Time varies festest within each entity.
+    if (type == "a" && multi_entity) {
+      dim(h5array) <- c(spatial_dims, n_time, n_entity)
+      dimnames(h5array) <- slice_dimnames
     }
 
     if(type=='r'){
@@ -265,6 +324,14 @@ ebv_read <- function(filepath, datacubepath = NULL,  entity=NULL, timestep=1,
         # print(fillvalue)
         if(!is.na(fillvalue)){
           h5array <- terra::classify(h5array, cbind(fillvalue, NA))
+        }
+        if (multi_entity) {
+          # read the full data sequence for each entity. Repeat each entity name
+          # once per timestep. Both vectors follow the order of the read loop.
+          layer_dates <- rep(selected_dates, times = n_entity)
+          layer_entities <- rep(entity_labels, each = n_time)
+          names(h5array) <- make.unique(paste(layer_entities, layer_dates, sep = " | "))
+          terra::time(h5array) <- layer_dates
         }
     }
 
