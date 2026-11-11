@@ -154,30 +154,11 @@ ebv_read <- function(filepath, datacubepath = NULL,  entity=NULL, timestep=1,
   # only 4D reads use an entity index to select data from the file.
   entity_index <-  1L
   if(is_4D){
-    if(is.null(entity)){
-      stop('You are working with a 4D cube based EBV netCDF. Please specify at least one entity.')
-    }
     #check entity
     entity_names <- prop@general$entity_names
+    entity_index <- ebv_i_entity_indices(entity, entity_names)
     # ebv_i_entity(entity, entity_names)
-
-    if(is.character(entity) && length(entity) > 0L && !anyNA(entity)){
-      # look up one file index per requested name, in the requested order.
-      # an unknown name produces NA and is rejected below
-      entity_index <- match(entity, entity_names)
-      if(anyNA(entity_index)){
-        stop("Unknown entity name. Check ebv_properties() for available entities.")
-      }
-    } else if(checkmate::checkIntegerish(
-      entity, lower = 1, upper = length(entity_names),
-      min.len = 1, any.missing = FALSE
-      ) == TRUE){
-      entity_index <- as.integer(entity)
-    } else {
-      stop("Provide entity names or integer indices within the available entity range.")
-    }
   }
-
   #timestep check -> in case of ISO, get index
   timestep <- ebv_i_date(timestep, prop@temporal$dates)
   n_time <- length(timestep)

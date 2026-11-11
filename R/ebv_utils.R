@@ -568,6 +568,40 @@ ebv_i_entity <- function(entity, entity_names){
   }
 }
 
+#' Resolve one or more entity names or indices
+#'
+#' @param entity Integer or character value pointing to entity in cube
+#' @param entity_names Character vector of entity names derived by ebv_properties
+#'
+#' @return Integer vector of file indices in requested order.
+#' @noRd
+ebv_i_entity_indices <- function(entity, entity_names ){
+  # If the entity is null stop the process
+  if(is.null(entity)){
+    stop("You are working with a 4D cube based EBV netCDF. Please specify at least one entity.")
+  }
+  # if entity is a character and bigger than 0 and non Na we look for the index
+  if(is.character(entity) && length(entity) > 0L && !anyNA(entity)){
+    entity_index <-  match(entity, entity_names)
+    # If index is NA we stop
+    if(anyNA(entity_index)){
+      stop("Unknown entity name. Check ebv_properties() for available entities.")
+    }
+    # else we check that that the values were converted safely to integer.
+  } else if (checkmate::check_integerish(
+    entity, lower = 1, upper = length(entity_names),
+    min.len = 1, any.missing = FALSE
+  ) == TRUE ) {
+    # if all up is true, set the entity index.
+    entity_index <- as.integer(entity)
+    # everything else stop the function.
+  } else {
+    stop("Provide entity names or integer indices within the available entity range.")
+  }
+  return(entity_index)
+}
+
+
 
 #' Check if EPSG code is valid
 #'
