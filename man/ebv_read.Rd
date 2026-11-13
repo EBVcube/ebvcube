@@ -26,7 +26,7 @@ scenario and metric argument to define which cube you want to access.}
 
 \item{entity}{Character or Integer. Default is NULL. If the structure is 3D,
 the entity argument is set to NULL. Else, specify one or more entities
-of the 4D structure of the EBV netCDFs by name or integer value.}
+of the 4D structure of the EBV netCDFs by name or index.}
 
 \item{timestep}{Integer or character. Select one or several timestep(s).
 Either provide an integer value or list of values that refer(s) to the
@@ -92,8 +92,13 @@ cSAR.delayedarray <- ebv_read(filepath = file, datacubepath = datacubes[1,1],
 #read data as SpatRaster
 cSAR.raster <- ebv_read(filepath = file,entity = 1, timestep = "2000-01-01",
                         type='r', metric = 1)
+
+#read multiple entities and timesteps as a SpatRaster
+cSAR.raster <- ebv_read(filepath = file, datacubepath = datacubes[1,1],
+                        entity = c(3, 1), timestep = c(2, 1), type = "r")
+
 #read data as Array
 cSAR.array <- ebv_read(filepath = file, datacubepath = datacubes[1,1],
-                              entity = 1, timestep = 1, type='r')
+                              entity = 1, timestep = 1, type='a')
 }
 }

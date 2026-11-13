@@ -8,13 +8,13 @@
 #'   (use [ebvcube::ebv_datacubepaths()]). Alternatively, you can use the
 #'   scenario and metric argument to define which cube you want to access.
 #' @param entity Character or Integer. Default is NULL. If the structure is 3D,
-#'   the entity argument is set to NULL. Else, a character string or single
-#'   integer value must indicate the entity of the 4D structure of the EBV
-#'   netCDFs.
+#'   the entity argument is set to NULL. Else, specify one or more entities
+#'   of the 4D structure of the EBV netCDFs by name or index.
 #' @param bb Integer Vector. Definition of subset by bounding box: c(xmin,
 #'   xmax, ymin, ymax).
 #' @param outputpath Character. Default: NULL, returns the data as a SpatRaster
-#'   object in memory. Optional: set path to write subset as GeoTiff on disk.
+#'   object in memory. Optional: set path to write subset as GeoTiff on disk, with
+#'   one band per entity and timestep combination.
 #' @param timestep Integer or character. Select one or several timestep(s).
 #'   Either provide an integer value or list of values that refer(s) to the
 #'   index of the timestep(s) (minimum value: 1) or provide a date or list of
@@ -40,7 +40,11 @@
 #'   it to FALSE.
 #'
 #' @return Returns a SpatRaster object if no outputpath is given. Otherwise the
-#'   subset is written onto the disk and the outputpath is returned.
+#'   subset is written onto the disk and the outputpath is returned. With multiple
+#'   entities, the result includes every combination of entity and timestep. Layers
+#'   are grouped in the requested entity order, with all selected timesteps for the
+#'   first entity followed by those for the next entity. Layer are named by entity
+#'   and date. GeoTIFF bands follow the same order.
 #' @export
 #'
 #' @note In case the epsg of the Bounding Box and the netCDF differ, the data is
@@ -74,6 +78,13 @@
 #' path  <- ebv_read_bb(filepath = file, datacubepath = datacubes[1,1],
 #'                      entity = 1, timestep = 1:2, bb = bb_utm32,
 #'                      epsg = 32632, outputpath = out, overwrite = TRUE)
+#'
+#' #read bb with multiple entities (based on ESRI 54009) - write to GeoTiff
+#' path  <- ebv_read_bb(filepath = file, datacubepath = datacubes[1,1],
+#'                      entity = c("all bird species", "forest bird species"),
+#'                      timestep = 1:2, bb = bb_utm32, epsg = 32632,
+#'                      outputpath = out, overwrite = TRUE)
+#'
 #' }
 ebv_read_bb <- function(filepath, datacubepath = NULL, entity=NULL, timestep = 1, bb,
                         outputpath=NULL, epsg = 4326, scenario = NULL, metric = NULL,
@@ -182,24 +193,19 @@ ebv_read_bb <- function(filepath, datacubepath = NULL, entity=NULL, timestep = 1
 
   #check file structure
   is_4D <- ebv_i_4D(filepath)
+  entity_index <- 1L
   if(is_4D){
-    if(is.null(entity)){
-      stop('Your working with a 4D cube based EBV netCDF. Please specify the entity-argument.')
-    }
-    #check entity
     entity_names <- prop@general$entity_names
-    ebv_i_entity(entity, entity_names)
-
-    #get entity index
-    if(checkmate::checkIntegerish(entity, len=1) == TRUE){
-      entity_index <- entity
-    } else if (checkmate::checkCharacter(entity)==TRUE){
-      entity_index <- which(entity_names==entity)
-    } else{
-      entity <- 1 #set entity to 1 (for ebv_i_check_ram)
-    }
+    entity_index <- ebv_i_entity_indices(entity, entity_names)
   }
 
+  n_time <-  length(timestep)
+  if (n_time == 0L){
+    stop("Select at least one timestep")
+  }
+
+  n_entity <- length(entity_index)
+  multi_entity <- n_entity > 1L
 
   #######initial test end ----
 
@@ -265,82 +271,60 @@ ebv_read_bb <- function(filepath, datacubepath = NULL, entity=NULL, timestep = 1
   ymin <- min(lat.data[lat.indices])-resolution[2]/2
   ymax <- max(lat.data[lat.indices])+resolution[2]/2
 
-  ncol <- length(lat.indices)
-  nrow <- length(lon.indices)
+  # spatial shape of the selected bounding box
+  nrow <- length(lat.indices)
+  ncol <- length(lon.indices)
 
+  #get data ----
+  #get multiple timesteps
   #check needed RAM ----
   if (!ignore_RAM){
-    ebv_i_check_ram(c(ncol, nrow), timestep, entity, prop@ebv_cube$type)
+    ebv_i_check_ram(c(nrow, ncol), timestep, entity_index, prop@ebv_cube$type)
   } else{
     if(verbose){
       print('RAM capacities are ignored.')
     }
   }
 
-  #get data ----
-  #get multiple timesteps
-  if (length(timestep)>1){
-    array3d <- array(dim=c(ncol, nrow, length(timestep)))
+  array3d <- array(
+    dim = c(nrow, ncol, n_time * n_entity)
+  )
 
-    if(is_4D){
-      #read from 4D structure
-      for (i in 1:length(timestep)){
-        #get subset
-        part <- rhdf5::h5read(filepath, datacubepath, start=c(min(lon.indices), min(lat.indices), timestep[i], entity_index), count = c(length(lon.indices), length(lat.indices), 1, length(entity_index)))
-        #create and rotate array
-        mat <- matrix(part, c(nrow, ncol, 1))
-        mat <- t(mat)
-        #mat <- mat[nrow(mat):1,,drop=FALSE]
-        array3d[, , i] <- array(mat, c(ncol, nrow))
+  for (entity_pos in seq_along(entity_index)){
+    for (time_pos in seq_along(timestep)){
+      #the source uses llon, lat, time, entity
+      start <- c(min(lon.indices), min(lat.indices), timestep[time_pos])
+      count <- c(ncol, nrow, 1L)
+      if(is_4D){
+        start <- c(start, entity_index[entity_pos])
+        count <-  c(count, 1L)
       }
-    } else{
-      # read from 3D structure
-      for (i in 1:length(timestep)){
-        #get subset
-        part <- rhdf5::h5read(filepath, datacubepath, start=c(min(lon.indices), min(lat.indices), timestep[i]), count = c(length(lon.indices), length(lat.indices), 1))
-        #create and rotate array
-        mat <- matrix(part, c(nrow, ncol))
-        mat <- t(mat[, , drop=FALSE])
-        #mat <- mat[nrow(mat):1,]
-
-        array3d[, , i] <- array(mat, c(ncol, nrow))
+      part <- rhdf5::h5read(
+        filepath, datacubepath, start = start, count = count
+      )
+      # Convert the spatial slice to [row, column].
+      mat <-  t(matrix(part, nrow = ncol, ncol = nrow))
+      layer <- (entity_pos - 1L) * n_time + time_pos
+      array3d[,,layer] <- mat
       }
-
-    }
-
-    #array to raster
-    extent <- terra::ext(c(xmin, xmax, ymin, ymax))
-    r <- terra::rast(array3d, crs=crs, extent=extent)
-
-  }else{
-    #get one timestep
-
-    if(is_4D){
-    #read from 4D structure
-      part <- rhdf5::h5read(filepath, datacubepath, start=c(min(lon.indices), min(lat.indices), timestep, entity_index), count = c(length(lon.indices), length(lat.indices), 1, length(entity_index)))
-      #create and rotate array
-      mat <- matrix(part, c(nrow, ncol))
-      mat <- t(mat)
-      #mat <- mat[nrow(mat):1,,drop=FALSE]
-
-    }else{
-    #read from 3D structure
-      part <- rhdf5::h5read(filepath, datacubepath, start=c(min(lon.indices), min(lat.indices), timestep), count = c(length(lon.indices), length(lat.indices), 1))
-      #create and rotate array
-      mat <- matrix(part, c(nrow, ncol))
-      mat <- t(mat[, , drop=FALSE])
-      #mat <- mat[nrow(mat):1,]
-
-    }
-
-    #array to raster
-    extent <- terra::ext(c(xmin, xmax, ymin, ymax))
-    r <- terra::rast(mat, crs=crs, extent=extent)
-
   }
+
+  #array to raster
+  extent <- terra::ext(c(xmin, xmax, ymin, ymax))
+  r <- terra::rast(array3d, crs=crs, extent=extent)
 
   #set nodata value
   r <- terra::classify(r, cbind(prop@ebv_cube$fillvalue, NA))
+
+  if (multi_entity) {
+    entity_labels <- entity_names[entity_index]
+    selected_dates <- prop@temporal$dates[timestep]
+    layer_dates <- rep(selected_dates, times = n_entity)
+    layer_entities <- rep(entity_labels, each = n_time)
+
+    names(r) <- make.unique(paste(layer_entities, layer_dates, sep = " - "))
+    terra::time(r) <- layer_dates
+  }
 
   #return data ----
   if (!is.null(outputpath)){
@@ -351,5 +335,4 @@ ebv_read_bb <- function(filepath, datacubepath = NULL, entity=NULL, timestep = 1
   else{
     return(r)
   }
-
 }

@@ -11,7 +11,7 @@
 #'   scenario and metric argument to define which cube you want to access.
 #' @param entity Character or Integer. Default is NULL. If the structure is 3D,
 #'   the entity argument is set to NULL. Else, specify one or more entities
-#'   of the 4D structure of the EBV netCDFs by name or integer value.
+#'   of the 4D structure of the EBV netCDFs by name or index.
 #' @param timestep Integer or character. Select one or several timestep(s).
 #'   Either provide an integer value or list of values that refer(s) to the
 #'   index of the timestep(s) (minimum value: 1) or provide a date or list of
@@ -65,6 +65,11 @@
 #' #read data as SpatRaster
 #' cSAR.raster <- ebv_read(filepath = file,entity = 1, timestep = "2000-01-01",
 #'                         type='r', metric = 1)
+#'
+#' #read multiple entities and timesteps as a SpatRaster
+#' cSAR.raster <- ebv_read(filepath = file, datacubepath = datacubes[1,1],
+#'                         entity = c(3, 1), timestep = c(2, 1), type = "r")
+#'
 #' #read data as Array
 #' cSAR.array <- ebv_read(filepath = file, datacubepath = datacubes[1,1],
 #'                               entity = 1, timestep = 1, type='a')
@@ -72,6 +77,7 @@
 ebv_read <- function(filepath, datacubepath = NULL,  entity=NULL, timestep=1,
                      type='r', scenario = NULL, metric = NULL,
                      sparse=FALSE, ignore_RAM = FALSE, verbose = FALSE){
+
   ####initial tests start ----
   # ensure file and all datahandles are closed on exit
   withr::defer(
@@ -311,7 +317,7 @@ ebv_read <- function(filepath, datacubepath = NULL,  entity=NULL, timestep=1,
           # once per timestep. Both vectors follow the order of the read loop.
           layer_dates <- rep(selected_dates, times = n_entity)
           layer_entities <- rep(entity_labels, each = n_time)
-          names(h5array) <- make.unique(paste(layer_entities, layer_dates, sep = " | "))
+          names(h5array) <- make.unique(paste(layer_entities, layer_dates, sep = " - "))
           terra::time(h5array) <- layer_dates
         }
     }

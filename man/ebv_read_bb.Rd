@@ -27,9 +27,8 @@ ebv_read_bb(
 scenario and metric argument to define which cube you want to access.}
 
 \item{entity}{Character or Integer. Default is NULL. If the structure is 3D,
-the entity argument is set to NULL. Else, a character string or single
-integer value must indicate the entity of the 4D structure of the EBV
-netCDFs.}
+the entity argument is set to NULL. Else, specify one or more entities
+of the 4D structure of the EBV netCDFs by name or index.}
 
 \item{timestep}{Integer or character. Select one or several timestep(s).
 Either provide an integer value or list of values that refer(s) to the
@@ -40,7 +39,8 @@ dates in ISO format, such as '2015-01-01'.}
 xmax, ymin, ymax).}
 
 \item{outputpath}{Character. Default: NULL, returns the data as a SpatRaster
-object in memory. Optional: set path to write subset as GeoTiff on disk.}
+object in memory. Optional: set path to write subset as GeoTiff on disk, with
+one band per entity and timestep combination.}
 
 \item{epsg}{Integer. Default: 4326 (WGS84). Change accordingly if your
 bounding box coordinates are based on a different coordinate reference
@@ -69,7 +69,11 @@ it to FALSE.}
 }
 \value{
 Returns a SpatRaster object if no outputpath is given. Otherwise the
-subset is written onto the disk and the outputpath is returned.
+subset is written onto the disk and the outputpath is returned. With multiple
+entities, the result includes every combination of entity and timestep. Layers
+are grouped in the requested entity order, with all selected timesteps for the
+first entity followed by those for the next entity. Layer are named by entity
+and date. GeoTIFF bands follow the same order.
 }
 \description{
 Read a subset of one or more layers from one datacube of the
@@ -106,6 +110,13 @@ path <- ebv_read_bb(filepath = file, datacubepath = datacubes[1,1],
 path  <- ebv_read_bb(filepath = file, datacubepath = datacubes[1,1],
                      entity = 1, timestep = 1:2, bb = bb_utm32,
                      epsg = 32632, outputpath = out, overwrite = TRUE)
+
+#read bb with multiple entities (based on ESRI 54009) - write to GeoTiff
+path  <- ebv_read_bb(filepath = file, datacubepath = datacubes[1,1],
+                     entity = c("all bird species", "forest bird species"),
+                     timestep = 1:2, bb = bb_utm32, epsg = 32632,
+                     outputpath = out, overwrite = TRUE)
+
 }
 }
 \seealso{
