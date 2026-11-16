@@ -27,9 +27,8 @@ ebv_read_shp(
 scenario and metric argument to define which cube you want to access.}
 
 \item{entity}{Character or Integer. Default is NULL. If the structure is 3D,
-the entity argument is set to NULL. Else, a character string or single
-integer value must indicate the entity of the 4D structure of the EBV
-netCDFs.}
+the entity argument is set to NULL. Else, specify one or more entities
+of the 4D structure of the EBV netCDFs by name or index.}
 
 \item{timestep}{Integer or character. Select one or several timestep(s).
 Either provide an integer value or list of values that refer(s) to the
@@ -40,7 +39,8 @@ dates in ISO format, such as '2015-01-01'.}
 to be *.shp.}
 
 \item{outputpath}{Character. Default: NULL, returns the data as a SpatRaster
-object in memory. Optional: set path to write subset as GeoTiff on disk.}
+object in memory. Optional: set path to write subset as GeoTiff on disk, with
+one band per entity and timestep combination.}
 
 \item{touches}{Logical. Default: TRUE, all pixels touched by the polygon(s)
 will be updated. Set to FALSE to only include pixels that are on the line
@@ -69,7 +69,11 @@ it to FALSE.}
 }
 \value{
 Returns a SpatRaster object if no output path is given. Otherwise the
-subset is written onto the disk and the output path is returned.
+subset is written onto the disk and the output path is returned. With multiple
+entities, the result includes every combination of entity and timestep. Layers
+are grouped in the requested entity order, with all selected timesteps for the
+first entity followed by those for the next entity. Layers are named by entity
+and date. GeoTIFF bands follow the same order.
 }
 \description{
 Read a subset of one or more layers from one datacube of the
@@ -88,6 +92,10 @@ shp_path <- system.file(file.path("extdata","cameroon.shp"), package="ebvcube")
 #read subset - return SpatRaster
 cSAR_cameroon <- ebv_read_shp(filepath = file, datacubepath = datacubes[1,1],
                              entity = 1, timestep = 1, shp = shp_path,
+                             outputpath = NULL, ignore_RAM = TRUE)
+#read subset - multiple entities and timesteps
+cSAR_cameroon <- ebv_read_shp(filepath = file, datacubepath = datacubes[1,1],
+                             entity = c(3, 1), timestep = c(2, 1), shp = shp_path,
                              outputpath = NULL, ignore_RAM = TRUE)
 }
 }

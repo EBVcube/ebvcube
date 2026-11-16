@@ -3,11 +3,10 @@
 
 ## Minor changes
 
--   ebv_read: allow selection of multiple entities by name (character) or 
-    integer value (index), with one layer per entity–timestep combination.
--   ebv_read_bb: allow selection of multiple entities by name (character) or 
-    integer values (index). GeoTIFF output follows the same layer order.
-    
+- ebv_read() / ebv_read_bb() / ebv_read_shp(): support selecting 
+  multiple entities by name or index. Raster outputs contain one layer per 
+  entity–timestep combination.
+
 # ebvcube 0.5.3
 
 ## Bug fixes

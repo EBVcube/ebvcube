@@ -8,13 +8,13 @@
 #'   (use [ebvcube::ebv_datacubepaths()]). Alternatively, you can use the
 #'   scenario and metric argument to define which cube you want to access.
 #' @param entity Character or Integer. Default is NULL. If the structure is 3D,
-#'   the entity argument is set to NULL. Else, a character string or single
-#'   integer value must indicate the entity of the 4D structure of the EBV
-#'   netCDFs.
+#'   the entity argument is set to NULL. Else, specify one or more entities
+#'   of the 4D structure of the EBV netCDFs by name or index.
 #' @param shp Character. Path to the shapefile defining the subset. Ending needs
 #'   to be *.shp.
 #' @param outputpath Character. Default: NULL, returns the data as a SpatRaster
-#'   object in memory. Optional: set path to write subset as GeoTiff on disk.
+#'   object in memory. Optional: set path to write subset as GeoTiff on disk, with
+#'   one band per entity and timestep combination.
 #' @param timestep Integer or character. Select one or several timestep(s).
 #'   Either provide an integer value or list of values that refer(s) to the
 #'   index of the timestep(s) (minimum value: 1) or provide a date or list of
@@ -40,7 +40,11 @@
 #'   it to FALSE.
 #'
 #' @return Returns a SpatRaster object if no output path is given. Otherwise the
-#'   subset is written onto the disk and the output path is returned.
+#'   subset is written onto the disk and the output path is returned. With multiple
+#'   entities, the result includes every combination of entity and timestep. Layers
+#'   are grouped in the requested entity order, with all selected timesteps for the
+#'   first entity followed by those for the next entity. Layers are named by entity
+#'   and date. GeoTIFF bands follow the same order.
 #' @export
 #' @seealso [ebvcube::ebv_read_bb()] for subsetting via bounding box.
 #'
@@ -57,6 +61,10 @@
 #' #read subset - return SpatRaster
 #' cSAR_cameroon <- ebv_read_shp(filepath = file, datacubepath = datacubes[1,1],
 #'                              entity = 1, timestep = 1, shp = shp_path,
+#'                              outputpath = NULL, ignore_RAM = TRUE)
+#' #read subset - multiple entities and timesteps
+#' cSAR_cameroon <- ebv_read_shp(filepath = file, datacubepath = datacubes[1,1],
+#'                              entity = c(3, 1), timestep = c(2, 1), shp = shp_path,
 #'                              outputpath = NULL, ignore_RAM = TRUE)
 #' }
 ebv_read_shp <- function(filepath, datacubepath = NULL, entity = NULL,
@@ -174,13 +182,9 @@ ebv_read_shp <- function(filepath, datacubepath = NULL, entity = NULL,
   #check file structure
   is_4D <- ebv_i_4D(filepath)
   if(is_4D){
-    if(is.null(entity)){
-      stop('Your working with a 4D cube based EBV netCDF. Please specify the entity-argument.')
-    }
     #check entity
     entity_names <- prop@general$entity_names
-    ebv_i_entity(entity, entity_names)
-
+    entity <- ebv_i_entity_indices(entity, entity_names)
   }
 
   ####end initial checks ----
@@ -224,9 +228,10 @@ ebv_read_shp <- function(filepath, datacubepath = NULL, entity = NULL,
   #rasterize shp ----
   #with resoultion of ncdf, burn value 1 (temp.raster --> mask)
   #rasterize shapefile and align to netCDF resolution
-  temp.raster <- terra::rasterize(subset, subset.nc, touches=touches)
+  temp.raster <- terra::rasterize(subset, subset.nc[[1]], touches=touches)
 
   #mask the subset ----
+  #applies masking across the complete stack.
   subset.raster <- terra::mask(subset.nc, temp.raster)
 
   #set nodata value
